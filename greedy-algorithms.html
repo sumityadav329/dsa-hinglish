@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greedy Algorithms ka Approach - DSA Hinglish Mein</title>
+     <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* Add specific SVG styles if needed */
+     </style>
+</head>
+<body>
+    <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+         <header>
+            <h1>💡 Greedy Algorithms ka Approach 💡</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is Greedy? -->
+            <div class="qa-item">
+                <button class="question">Greedy Algorithm kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Greedy Algorithm ek algorithmic paradigm (approach) hai jo optimization problems ko solve karne ke liye use hota hai. Iska core idea hai ki har step par woh choice select karo jo uss *particular moment* mein sabse accha (optimal) lag raha ho, bina future consequences ke baare mein soche. Ummid yeh hoti hai ki locally optimal choices banate-banate hum globally optimal solution tak pahunch jayenge.
+                    </p>
+                    <p>
+                        Yeh "short-sighted" approach ki tarah hai - bas abhi ka fayda dekho. Jaise agar aapko coins use karke change dena hai, toh aap sabse pehle sabse bada coin use karne ki koshish karoge jo amount se chhota ya barabar ho (yeh Indian currency ke liye kaam karta hai, lekin hamesha har currency system ke liye optimal nahi hota).
+                    </p>
+                    <p>
+                        Har problem Greedy approach se solve nahi ho sakti. Greedy approach sirf tabhi globally optimal solution deta hai jab problem mein do properties hon:
+                    </p>
+                     <ol>
+                        <li><strong>Greedy Choice Property:</strong> Ek globally optimal solution locally optimal choice (greedy choice) banakar haasil kiya ja sakta hai. Matlab, har step pe jo choice best lag rahi hai, woh final optimal solution ka hissa hoti hai.</li>
+                         <li><strong>Optimal Substructure Property:</strong> Ek problem ka optimal solution uski subproblems ke optimal solutions se banaya ja sakta hai (yeh property DP mein bhi thi). Greedy mein, locally optimal choice karne ke baad jo subproblem bachti hai, uska optimal solution original problem ke optimal solution mein contribute karta hai.</li>
+                     </ol>
+                     <p>Agar yeh properties nahi hain, toh Greedy approach suboptimal ya galat solution de sakta hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Greedy vs DP -->
+            <div class="qa-item">
+                <button class="question">Greedy Algorithms aur Dynamic Programming (DP) mein kya fark hai?</button>
+                <div class="answer">
+                    <p>Dono hi optimization problems solve karte hain aur Optimal Substructure property use karte hain, lekin main fark unke choice-making process mein hai:</p>
+                    <table class="comparison-table">
+                         <thead>
+                            <tr><th>Feature</th><th>Greedy Algorithm</th><th>Dynamic Programming</th></tr>
+                         </thead>
+                         <tbody>
+                            <tr><td>Choice Making</td><td>Har step pe locally optimal choice banata hai, future dekhe bina. Choice final hoti hai, backtrack nahi karta.</td><td>Har step pe saari possible choices ko explore karta hai (subproblems solve karke). Fir unke results se best choice select karta hai.</td></tr>
+                             <tr><td>Subproblems</td><td>Sirf ek subproblem (greedy choice se bani hui) solve karta hai.</td><td>Aksar multiple overlapping subproblems solve karta hai (aur unke results store karta hai).</td></tr>
+                              <tr><td>Proof of Correctness</td><td>Prove karna padta hai ki Greedy Choice Property hold karti hai.</td><td>Recurrence relation aur base cases pe based hota hai.</td></tr>
+                              <tr><td>Efficiency</td><td>Generally DP se zyada fast hota hai (agar applicable ho).</td><td>Aksar slower (due to solving more subproblems) lekin zyada wide range ki problems pe kaam karta hai.</td></tr>
+                               <tr><td>Example Problems</td><td>Activity Selection, Fractional Knapsack, Huffman Coding, Dijkstra's, Prim's, Kruskal's</td><td>0/1 Knapsack, LCS, Edit Distance, Matrix Chain Multiplication, Coin Change (total ways/min coins)</td></tr>
+                         </tbody>
+                    </table>
+                    <p>Simple shabdon mein: Greedy 'bas abhi ka best' chunta hai, jabki DP 'sare options dekh kar best' chunta hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Activity Selection Problem -->
+            <div class="qa-item">
+                <button class="question">Activity Selection Problem kya hai aur use Greedy se kaise solve karte hain?</button>
+                <div class="answer">
+                    <p>
+                        <strong>Problem:</strong> Aapko bahut saari activities di gayi hain, har activity ka start time aur finish time hai. Aapko maximum number of activities select karni hain jo ek single person perform kar sakta hai, is shart ke saath ki koi bhi do selected activities overlap na karein (ek time pe ek hi activity ho sakti hai).
+                    </p>
+                     <p><strong>Greedy Approach:</strong></p>
+                     <ol>
+                        <li>Sabhi activities ko unke **finish time** ke basis par ascending order mein sort kar lo.</li>
+                        <li>Pehli activity (jo sabse jaldi finish ho rahi hai) ko hamesha select kar lo.</li>
+                        <li>Ab baaki sorted activities mein se iterate karo.</li>
+                        <li>Har activity ke liye check karo: Kya iska start time, *pichli select ki gayi activity ke finish time* se bada ya barabar (>=) hai?</li>
+                        <li>Agar haan (matlab overlap nahi kar rahi), toh is activity ko bhi select kar lo aur isko 'pichli select ki gayi activity' maan lo agli comparisons ke liye.</li>
+                        <li>Agar nahi (matlab overlap kar rahi hai), toh is activity ko ignore kar do.</li>
+                     </ol>
+                     <p>Yeh approach kaam karta hai kyunki sabse jaldi finish hone wali activity ko select karne se humein baaki time mein zyada se zyada activities fit karne ka mauka milta hai (Greedy Choice Property hold karti hai).</p>
+                     <p><strong>Time Complexity:</strong> O(n log n) agar sorting karni pade. Agar pehle se sorted hai toh O(n).</p>
+                     <pre><code class="language-python">
+def activity_selection(start_times, finish_times):
+    """
+    Selects the maximum number of non-overlapping activities.
+    Assumes activities are sorted by finish times (or we sort them).
+    """
+    n = len(start_times)
+    if n == 0:
+        return []
+
+    # Combine start and finish times and sort by finish time
+    activities = sorted(zip(start_times, finish_times), key=lambda x: x[1])
+
+    selected_activities_indices = []
+    # 1. Select the first activity (earliest finish time)
+    # We store the index of the activity in the *original* list if needed,
+    # or just the activity details. Here, let's store the sorted index.
+    selected_activities_indices.append(0) # Index in the sorted list
+    last_selected_finish_time = activities[0][1]
+
+    # 2. Iterate through the rest of the activities
+    for i in range(1, n):
+        current_start_time = activities[i][0]
+        # 3. If current activity starts after or at the same time the last one finished
+        if current_start_time >= last_selected_finish_time:
+            selected_activities_indices.append(i)
+            last_selected_finish_time = activities[i][1] # Update last finish time
+
+    # Return the actual selected activities (optional, depends on requirement)
+    result = [activities[i] for i in selected_activities_indices]
+    # Or just return the count: len(selected_activities_indices)
+    return result, len(selected_activities_indices)
+
+
+# Example Usage:
+start =  [1, 3, 0, 5, 8, 5]
+finish = [2, 4, 6, 7, 9, 9]
+# Note: These are not sorted by finish time initially
+
+selected, count = activity_selection(start, finish)
+print(f"Maximum non-overlapping activities: {count}")
+print("Selected activities (Start, Finish):", selected)
+# Expected Output (after sorting by finish time: (1,2), (3,4), (0,6), (5,7), (8,9), (5,9) )
+# Activities selected: (1,2), (3,4), (5,7), (8,9) -> Count = 4
+                    </code></pre>
+                </div>
+            </div>
+
+            <!-- Q&A 4: Fractional Knapsack -->
+            <div class="qa-item">
+                 <button class="question">Fractional Knapsack Problem kya hai aur use Greedy se kaise solve karte hain?</button>
+                 <div class="answer">
+                    <p>
+                        <strong>Problem:</strong> Aapko kuch items diye gaye hain, har item ka weight aur value hai. Aapke paas ek Knapsack (bag) hai jiski maximum weight capacity hai. Aapko items ko Knapsack mein aise bharna hai ki total value maximum ho. Important: Aap items ka *fraction* (hissa) bhi le sakte hain.
+                    </p>
+                     <p><strong>Greedy Approach:</strong></p>
+                     <ol>
+                         <li>Har item ke liye uski **Value per unit Weight** (Value / Weight) calculate karo. Ise 'value density' bhi kehte hain.</li>
+                         <li>Sabhi items ko unki *Value per unit Weight* ke basis par descending order (sabse zyada density pehle) mein sort kar lo.</li>
+                         <li>Knapsack ki remaining capacity ko track karo (initially full capacity). Total value ko track karo (initially 0).</li>
+                         <li>Sorted items mein se iterate karo:</li>
+                         <li>Agar current item ka poora weight Knapsack ki remaining capacity se kam ya barabar hai:
+                            <ul>
+                                <li>Poora item Knapsack mein daal do.</li>
+                                <li>Total value mein item ki value add karo.</li>
+                                <li>Remaining capacity mein se item ka weight minus karo.</li>
+                            </ul>
+                         </li>
+                         <li>Agar current item ka weight remaining capacity se zyada hai:
+                            <ul>
+                                <li>Item ka utna *fraction* lo jitna remaining capacity hai (Fraction = Remaining Capacity / Item's Weight).</li>
+                                <li>Total value mein us fraction ki value add karo (Value += Fraction * Item's Value).</li>
+                                <li>Remaining capacity ko 0 kar do (Knapsack bhar gaya).</li>
+                                <li>Loop ko break kar do (kyunki Knapsack bhar gaya hai).</li>
+                            </ul>
+                         </li>
+                     </ol>
+                     <p>Yeh approach kaam karta hai kyunki sabse zyada value density wale item (ya uska fraction) ko pehle lene se hum Knapsack ki capacity ka best use kar paate hain.</p>
+                     <p><strong>Time Complexity:</strong> O(n log n) (sorting ke liye).</p>
+                     <p><strong>Note:</strong> Yeh Greedy approach sirf *Fractional* Knapsack ke liye kaam karta hai. *0/1 Knapsack* (jahan item ya toh poora lena hai ya bilkul nahi) ke liye DP use karni padti hai.</p>
+                      <pre><code class="language-python">
+class Item:
+    def __init__(self, value, weight):
+        self.value = value
+        self.weight = weight
+        self.density = value / weight if weight > 0 else 0
+
+def fractional_knapsack(items, capacity):
+    # Sort items by value density in descending order
+    items.sort(key=lambda x: x.density, reverse=True)
+
+    total_value = 0.0
+    current_weight = 0
+
+    for item in items:
+        # If adding the whole item doesn't exceed capacity
+        if current_weight + item.weight <= capacity:
+            current_weight += item.weight
+            total_value += item.value
+        # If we can only add a fraction of the item
+        else:
+            remaining_capacity = capacity - current_weight
+            fraction = remaining_capacity / item.weight
+            total_value += item.value * fraction
+            current_weight += remaining_capacity # Knapsack is now full
+            break # No need to check further items
+
+    return total_value
+
+# Example Usage
+items_list = [Item(60, 10), Item(100, 20), Item(120, 30)]
+knapsack_capacity = 50
+
+max_val = fractional_knapsack(items_list, knapsack_capacity)
+print(f"Maximum value in Knapsack = {max_val:.2f}") # Output should be 240.00
+# Explanation:
+# Densities: Item1=6, Item2=5, Item3=4. Sorted: Item1, Item2, Item3
+# 1. Take Item1 (10kg, $60). Remaining capacity=40. Value=60.
+# 2. Take Item2 (20kg, $100). Remaining capacity=20. Value=60+100=160.
+# 3. Take fraction of Item3 (30kg, $120). Need 20kg. Fraction=20/30 = 2/3.
+#    Value added = (2/3)*120 = 80. Total Value = 160+80=240. Capacity = 50.
+
+                    </code></pre>
+                </div>
+            </div>
+
+
+             <!-- Q&A 5: Other Greedy Problems -->
+            <div class="qa-item">
+                 <button class="question">Aur kaunse famous problems Greedy approach se solve hote hain?</button>
+                 <div class="answer">
+                    <p>Kai standard algorithms Greedy approach pe based hain:</p>
+                     <ul>
+                        <li><strong>Dijkstra's Algorithm:</strong> Single source shortest path problem (non-negative edge weights ke saath). Har step mein, yeh uss unvisited vertex ko choose karta hai jiska source se current distance sabse kam ho.</li>
+                        <li><strong>Prim's Algorithm:</strong> Minimum Spanning Tree (MST) find karne ke liye. Har step mein, yeh uss edge ko choose karta hai jiska weight sabse kam ho aur jo current tree ko ek naye vertex se connect kare bina cycle banaye.</li>
+                         <li><strong>Kruskal's Algorithm:</strong> Yeh bhi MST find karne ke liye hai. Yeh edges ko weight ke ascending order mein sort karta hai aur har edge ko add karta jaata hai agar woh cycle na banaye.</li>
+                         <li><strong>Huffman Coding:</strong> Lossless data compression ke liye. Yeh characters ko unki frequency ke basis par variable-length codes assign karta hai (frequent characters ko chhota code). Har step mein, yeh do sabse kam frequency wale nodes ko merge karta hai.</li>
+                         <li><strong>Coin Change (Kuch cases mein):</strong> Standard currency systems (like INR, USD) ke liye minimum coins find karne ka greedy approach (sabse bada coin pehle lo) kaam karta hai. Lekin yeh hamesha har possible coin system ke liye optimal nahi hota (uske liye DP zaroori ho sakti hai).</li>
+                     </ul>
+                 </div>
+             </div>
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="dynamic-programming.html" class="prev-link">Previous: Dynamic Programming</a>
+            <!-- Assuming this is the last major topic for now -->
+            <span class="nav-placeholder"></span> <!-- Placeholder for Next -->
+            <!-- <a href="backtracking.html" class="next-link">Next: Backtracking</a> -->
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+     <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

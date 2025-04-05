@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked Lists ke Concepts - DSA Hinglish Mein</title>
+    <!-- Prism JS Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG ke liye styles -->
+    <style>
+        .visualization-container {
+            margin: 25px 0;
+            text-align: center;
+        }
+        .visualization-container svg {
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            max-width: 100%;
+            height: auto;
+        }
+        /* Node Box Styling */
+        .svg-node {
+            stroke: #333;
+            stroke-width: 1.5;
+            fill: #dfffea; /* Light green fill */
+        }
+        /* Data part of Node */
+        .svg-node-data {
+            fill: #dfffea; /* Same as node fill */
+            stroke: #333;
+            stroke-width: 1;
+        }
+        /* Next part of Node */
+        .svg-node-next {
+            fill: #e0e0ff; /* Light blue fill for pointer part */
+            stroke: #333;
+            stroke-width: 1;
+        }
+        .svg-text {
+            font-family: var(--body-font);
+            font-size: 14px;
+            fill: #000;
+            text-anchor: middle;
+        }
+        .svg-pointer-text { /* Text inside pointer box */
+             font-family: var(--code-font);
+            font-size: 11px;
+            fill: #555;
+            text-anchor: middle;
+        }
+         .svg-label {
+            font-family: var(--body-font);
+            font-size: 13px;
+            fill: #d9534f;
+            font-weight: bold;
+            text-anchor: middle;
+        }
+         .svg-arrow {
+            stroke: #007bff; /* Blue arrow */
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead); /* Add arrowhead */
+        }
+         .svg-null {
+             font-family: var(--code-font);
+            font-size: 16px;
+            font-weight: bold;
+            fill: #777;
+            text-anchor: middle;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔗 Linked Lists ke Concepts 🔗</h1>
+            <p class="breadcrumb"><a href="index.html"><< Back to Topics</a></p> <!-- Wapas homepage jaane ka link -->
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: Definition with SVG -->
+            <div class="qa-item">
+                <button class="question">Linked List kya hoti hai? Array se kaise alag hai?</button>
+                <div class="answer">
+                    <p>
+                        Linked List bhi data store karne ka ek tareeka hai, bilkul Array ki tarah. Lekin Array se alag, ismein elements memory mein ek saath (contiguous) store nahi hote. Balki, har element ek 'Node' hota hai.
+                    </p>
+                    <p>
+                        Har <strong>Node</strong> ke do hisse hote hain:
+                    </p>
+                    <ul>
+                        <li><strong>Data:</strong> Asal value jo store karni hai (jaise number, string, etc.).</li>
+                        <li><strong>Next Pointer (Address):</strong> Agle Node ka memory address. Aakhri Node ka Next Pointer 'Null' (ya None) hota hai, jo batata hai ki list yahan khatam ho gayi.</li>
+                    </ul>
+                    <p>
+                        Imagine karo ek treasure hunt jaisa, jahan har clue (Node) aapko batata hai ki agla clue kahan milega. Pehla Node 'Head' kehlata hai, jahan se list shuru hoti hai.
+                    </p>
+                    <p>
+                        <strong>Array se Fark:</strong> Array ka size pehle se fix ho sakta hai aur elements memory mein line se hote hain. Linked List ka size aasani se badhaya ya ghataya ja sakta hai (dynamic size) aur elements memory mein kahin bhi ho sakte hain, bas 'Next' pointer se jude rehte hain. Isliye Linked List mein beech mein element daalna ya nikalna (agar Node ka address pata ho) Array ke mukable fast hota hai (O(1)), kyonki shifting nahi karni padti. Lekin kisi specific index wale element tak pahunchna Array mein fast (O(1)) hai, jabki Linked List mein shuru (Head) se traverse karna padta hai (O(n)).
+                    </p>
+                    <!-- SVG Visualization Start -->
+                    <div class="visualization-container">
+                        <svg width="500" height="150" viewBox="0 0 500 150">
+                             <title>Singly Linked List Structure</title>
+                             <desc>Ek singly linked list 3 nodes ke saath, Head se shuru hokar Null pe khatam.</desc>
+
+                            <!-- Arrowhead Definition -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                                refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/>
+                                </marker>
+                            </defs>
+
+                            <!-- Head Pointer -->
+                            <text class="svg-label" x="30" y="68">Head</text>
+                            <line class="svg-arrow" x1="55" y1="65" x2="95" y2="65" />
+
+                            <!-- Node 1 -->
+                            <g id="node1">
+                                <rect class="svg-node" x="100" y="40" width="80" height="50" rx="5"/>
+                                <!-- Data | Next split -->
+                                <line stroke="#333" stroke-width="1" x1="150" y1="40" x2="150" y2="90"/>
+                                <text class="svg-text" x="125" y="68">Data</text>
+                                <text class="svg-text" x="125" y="50">30</text>
+                                <circle fill="#007bff" cx="165" cy="65" r="4"/> <!-- Pointer Origin Dot -->
+                            </g>
+                            <!-- Arrow Node 1 to Node 2 -->
+                            <line class="svg-arrow" x1="180" y1="65" x2="215" y2="65" />
+
+
+                            <!-- Node 2 -->
+                             <g id="node2">
+                                <rect class="svg-node" x="220" y="40" width="80" height="50" rx="5"/>
+                                <line stroke="#333" stroke-width="1" x1="270" y1="40" x2="270" y2="90"/>
+                                <text class="svg-text" x="245" y="68">Data</text>
+                                <text class="svg-text" x="245" y="50">20</text>
+                                <circle fill="#007bff" cx="285" cy="65" r="4"/>
+                            </g>
+                            <!-- Arrow Node 2 to Node 3 -->
+                            <line class="svg-arrow" x1="300" y1="65" x2="335" y2="65" />
+
+                             <!-- Node 3 -->
+                             <g id="node3">
+                                <rect class="svg-node" x="340" y="40" width="80" height="50" rx="5"/>
+                                <line stroke="#333" stroke-width="1" x1="390" y1="40" x2="390" y2="90"/>
+                                <text class="svg-text" x="365" y="68">Data</text>
+                                <text class="svg-text" x="365" y="50">10</text>
+                                <circle fill="#007bff" cx="405" cy="65" r="4"/>
+                             </g>
+                             <!-- Arrow Node 3 to Null -->
+                            <line class="svg-arrow" x1="420" y1="65" x2="455" y2="65" />
+
+                             <!-- Null Pointer -->
+                             <text class="svg-null" x="475" y="70">NULL</text>
+
+                             <!-- Optional: Node Address Labels -->
+                             <text class="svg-pointer-text" x="140" y="110">(Addr: 0x100)</text>
+                             <text class="svg-pointer-text" x="260" y="110">(Addr: 0x2A8)</text>
+                             <text class="svg-pointer-text" x="380" y="110">(Addr: 0x5B0)</text>
+                        </svg>
+                    </div>
+                     <!-- SVG Visualization End -->
+
+                    <p>
+                        Upar diagram mein ek Singly Linked List dikhayi gayi hai. 'Head' pointer sabse pehle Node (jisme data 30 hai) ko point kar raha hai. Har Node mein data ke saath agle Node ka address (arrow se dikhaya gaya) store hai. Aakhri Node (data 10) ka 'Next' pointer NULL hai, matlab list yahan khatam.
+                    </p>
+                    <p>
+                        <strong>Array se Fark:</strong> Array ka size pehle se fix ho sakta hai aur elements memory mein line se hote hain. Linked List ka size aasani se badhaya ya ghataya ja sakta hai (dynamic size) aur elements memory mein kahin bhi ho sakte hain, bas 'Next' pointer se jude rehte hain. Isliye Linked List mein beech mein element daalna ya nikalna (agar Node ka address pata ho) Array ke mukable fast hota hai (O(1)), kyonki shifting nahi karni padti. Lekin kisi specific index wale element tak pahunchna Array mein fast (O(1)) hai, jabki Linked List mein shuru (Head) se traverse karna padta hai (O(n)).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Types -->
+            <div class="qa-item">
+                <button class="question">Linked List kitne type ki hoti hain?</button>
+                <div class="answer">
+                    <p>Mainly teen type ki hoti hain:</p>
+                    <ol>
+                        <li>
+                            <strong>Singly Linked List:</strong> Sabse basic type. Har Node mein sirf agle Node ka address hota hai ('Next' pointer). Hum sirf aage (forward) traverse kar sakte hain.
+                        </li>
+                        <li>
+                            <strong>Doubly Linked List:</strong> Har Node mein do pointers hote hain - ek agle Node ka ('Next') aur ek pichle Node ka ('Previous'). Ismein hum aage aur peeche dono taraf traverse kar sakte hain. Thodi extra memory lagti hai 'Previous' pointer ke liye.
+                        </li>
+                        <li>
+                            <strong>Circular Linked List:</strong> Ismein aakhri Node ka 'Next' pointer Null nahi hota, balki woh wapas pehle Node (Head) ko point karta hai. Yeh ek circle bana leti hai. Yeh Singly ya Doubly dono tarah ki ho sakti hai.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Python Implementation -->
+            <div class="qa-item">
+                <button class="question">Python mein ek basic Singly Linked List kaise banate hain?</button>
+                <div class="answer">
+                    <p>
+                        Pehle humein ek 'Node' class banani padegi, jisme data aur next pointer hoga. Fir ek 'LinkedList' class bana sakte hain jo Nodes ko manage karegi.
+                    </p>
+                    <pre><code class="language-python">
+# Step 1: Node Class banana
+class Node:
+    def __init__(self, data):
+        self.data = data  # Node mein store hone wala data
+        self.next = None  # Shuru mein next node ka address None hoga
+
+# Step 2: LinkedList Class banana
+class LinkedList:
+    def __init__(self):
+        self.head = None # Shuru mein list khali hai, toh head None hai
+
+    # List mein elements print karne ka function
+    def print_list(self):
+        temp = self.head
+        print("List: ", end="")
+        while temp: # Jab tak temp None na ho jaye
+            print(temp.data, "->", end=" ")
+            temp = temp.next # Agle node pe jao
+        print("None") # List ke end mein None dikhao
+
+    # Shuru mein Node add karne ka function
+    def add_at_beginning(self, new_data):
+        new_node = Node(new_data) # Naya node banaya
+        new_node.next = self.head # Naye node ka next abhi current head banega
+        self.head = new_node      # Ab naya node hi head ban gaya
+
+# --- Example Usage ---
+my_list = LinkedList()
+
+# Kuch elements add karte hain (shuru mein)
+my_list.add_at_beginning(10) # List: 10 -> None
+my_list.add_at_beginning(20) # List: 20 -> 10 -> None
+my_list.add_at_beginning(30) # List: 30 -> 20 -> 10 -> None
+
+# List ko print karke dekhte hain
+my_list.print_list() # Output: List: 30 -> 20 -> 10 -> None
+                    </code></pre>
+                    <p>
+                        Yeh ek bahut hi basic example hai. Ek complete Linked List implementation mein aur bhi functions hote hain jaise end mein add karna, beech mein add karna, delete karna, search karna etc.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Q&A 4: Complexity -->
+            <div class="qa-item">
+                <button class="question">Singly Linked List mein common operations ki Time Complexity kya hoti hai?</button>
+                <div class="answer">
+                   <ul>
+                       <li><strong>Access (k-th element):</strong> O(n) - Shuru se traverse karna padta hai.</li>
+                       <li><strong>Search:</strong> O(n) - Worst case mein poori list check karni pad sakti hai.</li>
+                       <li><strong>Insertion (Beginning mein):</strong> O(1) - Sirf head pointer ko update karna hota hai. Bahut fast.</li>
+                       <li><strong>Insertion (End mein):</strong> O(n) - Aakhri node tak traverse karna padta hai (agar tail pointer maintain na kiya ho toh). Agar tail pointer maintain karte hain toh O(1).</li>
+                       <li><strong>Insertion (Beech mein - agar node ka pointer pata ho):</strong> O(1) - Connections update karna fast hai. Agar index diya ho toh pehle us node tak pahunchna padega (O(n)).</li>
+                       <li><strong>Deletion (Beginning mein):</strong> O(1) - Head pointer update karna hai.</li>
+                       <li><strong>Deletion (End mein):</strong> O(n) - Aakhri se pehle wale node tak traverse karna padta hai.</li>
+                        <li><strong>Deletion (Beech mein - agar node ka pointer pata ho):</strong> O(1) - Connections update karna fast hai. Agar value/index diya ho toh pehle us node tak pahunchna padega (O(n)).</li>
+                   </ul>
+                   <p><em>(n = list mein kitne nodes hain)</em></p>
+                   <p><strong>Space Complexity:</strong> O(n) - Jitne elements utni memory.</p>
+                </div>
+            </div>
+
+             <!-- Q&A 5: Array vs Linked List -->
+            <div class="qa-item">
+                <button class="question">Array aur Linked List mein main antar kya hain?</button>
+                <div class="answer">
+                    <h4>Key Differences:</h4>
+                    <table class="comparison-table"> <!-- Basic table for comparison -->
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Array</th>
+                                <th>Linked List</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Memory Allocation</td>
+                                <td>Contiguous (Ek saath)</td>
+                                <td>Non-contiguous (Kahin bhi)</td>
+                            </tr>
+                            <tr>
+                                <td>Size</td>
+                                <td>Fixed (Static Array) / Dynamic but resizing costly</td>
+                                <td>Dynamic (Easy to grow/shrink)</td>
+                            </tr>
+                             <tr>
+                                <td>Access Time (by Index)</td>
+                                <td>O(1)</td>
+                                <td>O(n)</td>
+                            </tr>
+                            <tr>
+                                <td>Insertion/Deletion (Beginning)</td>
+                                <td>O(n) (Shifting needed)</td>
+                                <td>O(1)</td>
+                            </tr>
+                             <tr>
+                                <td>Insertion/Deletion (Middle)</td>
+                                <td>O(n) (Shifting needed)</td>
+                                <td>O(1) (if pointer given), else O(n) to find</td>
+                            </tr>
+                             <tr>
+                                <td>Insertion/Deletion (End)</td>
+                                <td>O(1) (amortized for dynamic array)</td>
+                                <td>O(n) (or O(1) if tail pointer used)</td>
+                            </tr>
+                             <tr>
+                                <td>Extra Memory</td>
+                                <td>Nahi (for data itself)</td>
+                                <td>Haan (for 'Next' pointers)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Kab kya use karein?</strong></p>
+                    <ul>
+                        <li>Agar aapko baar baar random elements ko unke index se access karna hai, toh <strong>Array</strong> behtar hai.</li>
+                        <li>Agar aapko baar baar list ke shuru ya beech mein elements insert/delete karne hain aur size ka pehle se andaaza nahi hai, toh <strong>Linked List</strong> accha option hai.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Yahan aur Q&A add karte jaana (e.g., Doubly Linked List implementation, Circular list use cases) -->
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <!-- Previous Link (Assuming Arrays is before Linked Lists) -->
+            <a href="arrays.html" class="prev-link">Previous: Arrays</a>
+
+            <!-- Next Link -->
+            <a href="stacks.html" class="next-link">Next: Stacks</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html"><< Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+
+    <!-- Prism JS Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

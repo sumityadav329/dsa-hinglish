@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphs ke Connections - DSA Hinglish Mein</title>
+    <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        .visualization-container svg { border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9; border-radius: var(--border-radius); max-width: 100%; height: auto; }
+        .svg-node circle { stroke: #6f42c1; stroke-width: 2; fill: #e9d8fd; /* Light violet */ }
+        .svg-node text { font-family: var(--body-font); font-size: 14px; fill: #000; text-anchor: middle; dominant-baseline: middle; }
+        .svg-edge { stroke: #6c757d; stroke-width: 1.5; }
+        .svg-edge-directed { stroke: #0d6efd; stroke-width: 1.5; marker-end: url(#arrowhead); } /* Directed edge */
+        .svg-label { font-family: var(--body-font); font-size: 13px; fill: #d9534f; font-weight: bold; text-anchor: middle; }
+     </style>
+</head>
+<body>
+     <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#0d6efd"/></marker></defs></svg>
+
+    <div class="container">
+        <header>
+            <h1>📈 Graphs ke Connections 📈</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is a Graph? -->
+            <div class="qa-item">
+                <button class="question">Graph Data Structure kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Graph ek non-linear data structure hai jo 'Vertices' (ya Nodes) aur 'Edges' ke set se bana hota hai. Edges vertices ke beech ke connection ya relationship ko represent karte hain.
+                    </p>
+                    <p>
+                       Trees bhi ek tarah ke graph hote hain, lekin graphs zyada general hote hain - inmein cycles ho sakte hain, aur yeh zaroori nahi ki sab kuch connected ho (disconnected components ho sakte hain).
+                    </p>
+                    <p>Key terms:</p>
+                     <ul>
+                        <li><strong>Vertex (Node):</strong> Data store karne wali entity (e.g., city, person, web page).</li>
+                        <li><strong>Edge:</strong> Do vertices ke beech ka connection (e.g., road, friendship, link). Edge ka weight (cost/distance) bhi ho सकता है (Weighted Graph).</li>
+                         <li><strong>Undirected Graph:</strong> Edges ki koi direction nahi hoti (e.g., Facebook friendship - A B se friend hai toh B bhi A se friend hai).</li>
+                         <li><strong>Directed Graph (Digraph):</strong> Edges ki direction hoti hai (e.g., Twitter follow - A B ko follow karta hai, zaroori nahi ki B bhi A ko kare).</li>
+                         <li><strong>Adjacent Vertices:</strong> Do vertices jinke beech ek edge ho.</li>
+                         <li><strong>Degree (Undirected):</strong> Ek vertex se jude edges ki sankhya.</li>
+                         <li><strong>In-degree (Directed):</strong> Ek vertex par *aane wale* edges ki sankhya.</li>
+                         <li><strong>Out-degree (Directed):</strong> Ek vertex se *jaane wale* edges ki sankhya.</li>
+                         <li><strong>Path:</strong> Vertices ka sequence jo edges se connected ho.</li>
+                         <li><strong>Cycle:</strong> Ek path jo usi vertex se shuru aur khatam ho.</li>
+                         <li><strong>Connected Graph (Undirected):</strong> Har do vertices ke beech kam se kam ek path ho.</li>
+                         <li><strong>Strongly Connected Graph (Directed):</strong> Har do vertices (u, v) ke liye u se v tak *aur* v se u tak path ho.</li>
+                     </ul>
+                     <!-- SVG for Simple Undirected Graph -->
+                    <div class="visualization-container">
+                         <svg width="300" height="200" viewBox="0 0 300 200">
+                           <title>Simple Undirected Graph</title>
+                            <!-- Edges -->
+                            <line class="svg-edge" x1="50" y1="50" x2="150" y2="50"/> <!-- A-B -->
+                            <line class="svg-edge" x1="50" y1="50" x2="100" y2="150"/> <!-- A-C -->
+                            <line class="svg-edge" x1="150" y1="50" x2="250" y2="50"/> <!-- B-D -->
+                            <line class="svg-edge" x1="150" y1="50" x2="100" y2="150"/> <!-- B-C -->
+                            <line class="svg-edge" x1="250" y1="50" x2="100" y2="150"/> <!-- D-C -->
+                           <!-- Nodes -->
+                           <g class="svg-node"><circle cx="50" cy="50" r="15"/><text x="50" y="50">A</text></g>
+                           <g class="svg-node"><circle cx="150" cy="50" r="15"/><text x="150" y="50">B</text></g>
+                           <g class="svg-node"><circle cx="100" cy="150" r="15"/><text x="100" y="150">C</text></g>
+                           <g class="svg-node"><circle cx="250" cy="50" r="15"/><text x="250" y="50">D</text></g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Graph Representation -->
+            <div class="qa-item">
+                <button class="question">Graph ko represent karne ke kya tareeke hain?</button>
+                <div class="answer">
+                    <p>Graph ko code mein represent karne ke do common tareeke hain:</p>
+                    <ol>
+                        <li>
+                            <strong>Adjacency Matrix:</strong>
+                            <ul>
+                                <li>Ek 2D array (Matrix) banate hain jiska size `V x V` hota hai (V = number of vertices).</li>
+                                <li>`matrix[i][j] = 1` (ya edge weight) agar vertex `i` se vertex `j` tak edge hai, warna `0` (ya infinity).</li>
+                                <li>Undirected graph mein matrix symmetric hota hai (`matrix[i][j] = matrix[j][i]`).</li>
+                                <li><strong>Pros:</strong> Check karna ki do vertices ke beech edge hai ya nahi, bahut fast hai (O(1)).</li>
+                                <li><strong>Cons:</strong> Bahut space leta hai (O(V<sup>2</sup>)), khaaskar 'Sparse Graphs' (jahan edges kam hote hain vertices ke comparison mein) ke liye inefficient hai. Ek vertex ke saare neighbors dhoondhne mein O(V) time lagta hai.</li>
+                            </ul>
+                            <!-- Example Matrix can be shown here -->
+                        </li>
+                         <li>
+                            <strong>Adjacency List:</strong>
+                            <ul>
+                                <li>Ek array (ya dictionary/map) banate hain jisme har index `i` ek vertex ko represent karta hai.</li>
+                                <li>Index `i` par ek Linked List (ya dynamic array/vector) store karte hain jisme vertex `i` ke saare *adjacent* vertices (neighbors) hote hain.</li>
+                                <li>Weighted graph mein, list mein pairs `(neighbor, weight)` store kar sakte hain.</li>
+                                <li><strong>Pros:</strong> Space efficient hai (O(V + E), E = number of edges), khaaskar sparse graphs ke liye. Ek vertex ke saare neighbors dhoondhna uski degree ke proportional time mein ho jaata hai.</li>
+                                <li><strong>Cons:</strong> Check karna ki do specific vertices `u` aur `v` ke beech edge hai ya nahi, thoda slow ho sakta hai (worst case O(degree(u))).</li>
+                            </ul>
+                             <pre><code class="language-python">
+# Adjacency List Representation using Dictionary in Python
+# For the graph A--B, A--C, B--C, B--D, C--D
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'C', 'D'],
+    'C': ['A', 'B', 'D'],
+    'D': ['B', 'C']
+}
+
+print("Neighbors of B:", graph['B']) # Output: ['A', 'C', 'D']
+
+# Adding an edge (e.g., A to D) - for undirected, add both ways
+graph['A'].append('D')
+graph['D'].append('A') # Add this if D doesn't have A yet
+
+print("Updated neighbors of A:", graph['A'])
+print("Updated neighbors of D:", graph['D'])
+                            </code></pre>
+                            <p>Generally Adjacency List zyada prefer ki jaati hai Adjacency Matrix ke upar, unless graph bahut dense ho.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+             <!-- Q&A 3: Graph Traversal (BFS) -->
+            <div class="qa-item">
+                <button class="question">Breadth-First Search (BFS) traversal kya hai?</button>
+                <div class="answer">
+                    <p>
+                       BFS ek graph traversal algorithm hai jo ek starting vertex se shuru karke graph ko *level by level* explore karta hai. Yeh un sabhi vertices ko pehle visit karta hai jo starting vertex se 1 edge door hain, fir un sabhi ko jo 2 edges door hain, and so on.
+                    </p>
+                    <p>Yeh <strong>Queue</strong> data structure ka use karta hai.</p>
+                     <p><strong>Kaise Kaam Karta Hai:</strong></p>
+                     <ol>
+                        <li>Ek Queue banayein aur ek 'visited' set/array banayein (vertices ko track karne ke liye jo visit ho chuke hain).</li>
+                        <li>Starting vertex ko Queue mein daalein aur use 'visited' mark karein.</li>
+                        <li>Jab tak Queue khali na ho jaye:</li>
+                        <li>Queue ke front se ek vertex `u` ko Dequeue karein (aur process karein, e.g., print).</li>
+                        <li>`u` ke sabhi *adjacent* vertices (`v`) ke liye:
+                            <ul>
+                                <li>Agar `v` 'visited' nahi hai:
+                                    <ul>
+                                        <li>`v` ko 'visited' mark karein.</li>
+                                        <li>`v` ko Queue mein Enqueue karein.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                     </ol>
+                     <p><strong>Use Cases:</strong></p>
+                     <ul>
+                         <li>Shortest path find karna unweighted graphs mein (starting vertex se baaki sabhi vertices tak).</li>
+                         <li>Connected components find karna.</li>
+                         <li>Network broadcasting.</li>
+                         <li>Web crawlers.</li>
+                     </ul>
+                     <p><strong>Time Complexity:</strong> O(V + E) (V = vertices, E = edges) using Adjacency List.</p>
+                     <p><strong>Space Complexity:</strong> O(V) (for Queue and visited set in worst case).</p>
+                      <pre><code class="language-python">
+from collections import deque
+
+def bfs(graph, start_node):
+    visited = set() # Keep track of visited nodes
+    queue = deque([start_node]) # Start queue with the starting node
+    visited.add(start_node)
+    result_order = [] # To store the traversal order
+
+    while queue:
+        vertex = queue.popleft() # Dequeue a vertex from the queue
+        result_order.append(vertex)
+        # print(vertex, end=" ") # Or process the node here
+
+        # Get all adjacent vertices of the dequeued vertex
+        # If an adjacent has not been visited, mark it visited and enqueue it
+        if vertex in graph: # Check if vertex exists in graph keys
+            for neighbor in graph[vertex]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+    return result_order
+
+# Example Usage (using the graph defined earlier)
+graph_adj_list = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'], # Modified example graph
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+print("BFS starting from node A:", bfs(graph_adj_list, 'A'))
+# Possible Output: ['A', 'B', 'C', 'D', 'E', 'F'] (Order of neighbors can vary)
+                      </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 4: Graph Traversal (DFS) -->
+            <div class="qa-item">
+                <button class="question">Depth-First Search (DFS) traversal kya hai?</button>
+                <div class="answer">
+                     <p>
+                       DFS bhi ek graph traversal algorithm hai, lekin yeh BFS se alag approach leta hai. Yeh ek starting vertex se shuru karke ek path ko *jitna gehra (deep)* ja sakta hai, utna explore karta hai, jab tak ki dead end na aa jaye. Fir yeh *backtrack* karta hai aur dusra unexplored path explore karna shuru karta hai.
+                    </p>
+                     <p>Yeh implicitly **Stack** data structure ka use karta hai (Recursion ke through ya explicitly stack use karke).</p>
+                     <p><strong>Kaise Kaam Karta Hai (Recursive Approach):</strong></p>
+                     <ol>
+                        <li>Ek 'visited' set/array banayein.</li>
+                        <li>Ek function `dfs_recursive(vertex, visited, graph)` banayein:</li>
+                        <li>Current `vertex` ko 'visited' mark karein (aur process karein, e.g., print).</li>
+                        <li>Current `vertex` ke sabhi *adjacent* vertices (`neighbor`) ke liye:
+                            <ul>
+                                <li>Agar `neighbor` 'visited' nahi hai:
+                                    <ul>
+                                       <li>`dfs_recursive(neighbor, visited, graph)` ko call karein.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Main function mein, starting vertex se `dfs_recursive` call karein. (Agar graph disconnected hai, toh sabhi unvisited vertices se call karna pad sakta hai).</li>
+                     </ol>
+                      <p><strong>Use Cases:</strong></p>
+                     <ul>
+                         <li>Cycle detection in graphs.</li>
+                         <li>Topological Sorting (for Directed Acyclic Graphs - DAGs).</li>
+                         <li>Finding connected components.</li>
+                         <li>Path finding (though not necessarily shortest path).</li>
+                         <li>Solving puzzles like mazes.</li>
+                     </ul>
+                     <p><strong>Time Complexity:</strong> O(V + E) using Adjacency List.</p>
+                     <p><strong>Space Complexity:</strong> O(V) (for recursion stack and visited set in worst case).</p>
+                       <pre><code class="language-python">
+def dfs_recursive(graph, node, visited, result_order):
+    visited.add(node)
+    result_order.append(node)
+    # print(node, end=" ") # Process node
+
+    if node in graph: # Check if node exists in graph keys
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                dfs_recursive(graph, neighbor, visited, result_order)
+
+def dfs(graph, start_node):
+    visited = set()
+    result_order = []
+    dfs_recursive(graph, start_node, visited, result_order)
+    return result_order
+
+
+# Example Usage (using the same graph as BFS)
+graph_adj_list = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+print("DFS starting from node A:", dfs(graph_adj_list, 'A'))
+# Possible Output: ['A', 'B', 'D', 'E', 'F', 'C'] (Order can vary based on neighbor processing)
+
+                       </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 5: Applications -->
+             <div class="qa-item">
+                 <button class="question">Graphs kahan use hote hain?</button>
+                 <div class="answer">
+                    <p>Graphs real-world scenarios ko model karne mein bahut powerful hain:</p>
+                     <ul>
+                        <li><strong>Social Networks:</strong> Users (vertices) aur friendships/follows (edges). (e.g., Facebook, LinkedIn, Twitter).</li>
+                        <li><strong>Maps and Navigation:</strong> Locations (vertices) aur roads/flights (edges). Shortest path algorithms (like Dijkstra's) use hote hain. (e.g., Google Maps).</li>
+                        <li><strong>World Wide Web:</strong> Web pages (vertices) aur hyperlinks (edges). Search engine crawlers graphs use karte hain.</li>
+                        <li><strong>Recommendation Systems:</strong> Users aur items (vertices), interactions/preferences (edges). (e.g., Netflix, Amazon).</li>
+                        <li><strong>Biological Networks:</strong> Proteins/genes (vertices) aur interactions (edges).</li>
+                        <li><strong>Computer Networks:</strong> Devices (vertices) aur connections (edges).</li>
+                        <li><strong>Task Scheduling:</strong> Tasks (vertices) aur dependencies (edges). Topological sort use hota hai.</li>
+                         <li><strong>State Machines:</strong> States (vertices) aur transitions (edges).</li>
+                     </ul>
+                 </div>
+             </div>
+
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="heap.html" class="prev-link">Previous: Heaps</a>
+            <a href="dynamic-programming.html" class="next-link">Next: Dynamic Programming</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+      <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

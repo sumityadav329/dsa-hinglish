@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trees ke Branches - DSA Hinglish Mein</title>
+    <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+     <!-- SVG Styles -->
+     <style>
+        /* Add relevant SVG styles here */
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* ... other SVG styles ... */
+        .svg-node circle { stroke: #28a745; stroke-width: 2; fill: #e0ffe0; }
+        .svg-node text { font-family: var(--body-font); font-size: 14px; fill: #000; text-anchor: middle; dominant-baseline: middle; }
+        .svg-edge { stroke: #6c757d; stroke-width: 1.5; }
+     </style>
+</head>
+<body>
+     <!-- Arrowhead Definition (optional for tree edges) -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+        <header>
+            <h1>🌳 Trees ke Branches 🌳</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is a Tree? -->
+            <div class="qa-item">
+                <button class="question">Tree Data Structure kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                       Tree ek non-linear data structure hai jo hierarchical (up-down relationship) data ko represent karta hai. Yeh 'Nodes' ka collection hota hai jo 'Edges' (lines) se connected hote hain.
+                    </p>
+                    <p>Key terms:</p>
+                     <ul>
+                        <li><strong>Node:</strong> Data store karne wali entity.</li>
+                        <li><strong>Edge:</strong> Do nodes ke beech ka connection/link.</li>
+                         <li><strong>Root:</strong> Sabse upar wala node jahan se tree shuru hota hai (iska koi parent nahi hota). Ek tree mein sirf ek root hota hai.</li>
+                         <li><strong>Parent:</strong> Ek node jiska neeche koi aur node connected ho.</li>
+                         <li><strong>Child:</strong> Ek node jo kisi dusre node (parent) se neeche connected ho.</li>
+                         <li><strong>Siblings:</strong> Aise nodes jinka parent same ho.</li>
+                         <li><strong>Leaf Node:</strong> Aisa node jiska koi child na ho (tree ka end point).</li>
+                         <li><strong>Internal Node:</strong> Aisa node jiska kam se kam ek child ho (jo leaf na ho).</li>
+                         <li><strong>Height of a Node:</strong> Us node se sabse door wale leaf node tak ka longest path (edges ki sankhya). Leaf node ki height 0 hoti hai.</li>
+                         <li><strong>Height of a Tree:</strong> Root node ki height.</li>
+                         <li><strong>Depth of a Node:</strong> Root se us node tak ka path (edges ki sankhya). Root ki depth 0 hoti hai.</li>
+                         <li><strong>Subtree:</strong> Tree ka ek hissa jo khud bhi ek tree ho (kisi node aur uske neeche ke saare descendants).</li>
+                     </ul>
+                      <!-- SVG for Basic Tree Structure -->
+                     <div class="visualization-container">
+                         <svg width="300" height="250" viewBox="0 0 300 250">
+                            <title>Basic Tree Structure</title>
+                             <!-- Edges -->
+                             <line class="svg-edge" x1="150" y1="40" x2="80" y2="100"/>
+                             <line class="svg-edge" x1="150" y1="40" x2="220" y2="100"/>
+                             <line class="svg-edge" x1="80" y1="120" x2="40" y2="180"/>
+                             <line class="svg-edge" x1="80" y1="120" x2="120" y2="180"/>
+                             <line class="svg-edge" x1="220" y1="120" x2="260" y2="180"/>
+                            <!-- Nodes -->
+                            <g class="svg-node"><circle cx="150" cy="30" r="20"/><text x="150" y="30">A</text><text x="150" y="5" font-size="10px">(Root)</text></g>
+                            <g class="svg-node"><circle cx="80" cy="110" r="20"/><text x="80" y="110">B</text></g>
+                            <g class="svg-node"><circle cx="220" cy="110" r="20"/><text x="220" y="110">C</text></g>
+                            <g class="svg-node"><circle cx="40" cy="190" r="20"/><text x="40" y="190">D</text><text x="40" y="220" font-size="10px">(Leaf)</text></g>
+                            <g class="svg-node"><circle cx="120" cy="190" r="20"/><text x="120" y="190">E</text><text x="120" y="220" font-size="10px">(Leaf)</text></g>
+                             <g class="svg-node"><circle cx="260" cy="190" r="20"/><text x="260" y="190">F</text><text x="260" y="220" font-size="10px">(Leaf)</text></g>
+                         </svg>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Types of Trees -->
+             <div class="qa-item">
+                <button class="question">Common types ke Trees kaunse hain?</button>
+                <div class="answer">
+                     <p>Trees ke bahut saare types hote hain, kuch common hain:</p>
+                     <ul>
+                        <li><strong>General Tree:</strong> Koi restriction nahi ki ek node ke kitne children ho sakte hain.</li>
+                         <li><strong>Binary Tree (BT):</strong> Ek special tree jisme har node ke maximum *do* children ho sakte hain (left child aur right child). Yeh sabse commonly used type hai.</li>
+                         <li><strong>Binary Search Tree (BST):</strong> Ek Binary Tree jisme ek khaas property hoti hai:
+                            <ul>
+                                <li>Har node ke left subtree mein saari values node ki value se *chhoti* (ya barabar) hoti hain.</li>
+                                <li>Har node ke right subtree mein saari values node ki value se *badi* hoti hain.</li>
+                                <li>Yeh property searching ko bahut efficient (average O(log n)) bana deti hai.</li>
+                            </ul>
+                         </li>
+                         <li><strong>Balanced Binary Search Trees:</strong> Yeh BSTs hote hain jo kuch operations (insert/delete) ke baad apni height ko balanced rakhte hain taaki worst-case time complexity O(log n) hi rahe. Examples:
+                            <ul>
+                                <li><strong>AVL Tree:</strong> Har node ke left aur right subtree ki height mein maximum 1 ka difference ho sakta hai. Rotations se balance karte hain.</li>
+                                <li><strong>Red-Black Tree:</strong> Nodes pe color (Red/Black) use karke balancing rules enforce karte hain. HashMap/TreeMap mein use hote hain.</li>
+                            </ul>
+                         </li>
+                         <li><strong>Heap:</strong> Ek special Binary Tree jo ya toh Min-Heap hota hai ya Max-Heap.
+                            <ul>
+                                <li><strong>Min-Heap:</strong> Parent node ki value hamesha apne children se chhoti (ya barabar) hoti hai. Root pe sabse minimum value hoti hai.</li>
+                                 <li><strong>Max-Heap:</strong> Parent node ki value hamesha apne children se badi (ya barabar) hoti hai. Root pe sabse maximum value hoti hai.</li>
+                                 <li>Priority Queues implement karne mein use hota hai.</li>
+                            </ul>
+                         </li>
+                         <li><strong>Trie (Prefix Tree):</strong> Strings ko efficiently store aur search karne ke liye use hota hai, khaaskar prefix-based searching (jaise autocomplete) ke liye.</li>
+                         <li><em>Aur bhi types hain jaise B-Tree, B+ Tree (databases mein use hote hain), Segment Tree, Fenwick Tree (competitive programming mein).</em></li>
+                     </ul>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Binary Tree Traversal -->
+            <div class="qa-item">
+                <button class="question">Binary Tree ko traverse (visit all nodes) karne ke kya tareeke hain?</button>
+                <div class="answer">
+                     <p>Binary Tree ke har node ko systematically visit karne ke liye Traversal algorithms use hote hain. Main do approaches hain:</p>
+                     <ol>
+                        <li><strong>Depth-First Search (DFS):</strong> Ismein hum ek branch mein jitna neeche ja sakte hain, utna jaate hain, fir backtrack karte hain. Iske teen common types hain (Recursive definition):
+                             <ul>
+                                <li><strong>Inorder Traversal (Left - Root - Right):</strong> Pehle left subtree visit karo, fir root node ko process karo, fir right subtree visit करो. BST ko inorder traverse karne se sorted order milta hai.</li>
+                                <li><strong>Preorder Traversal (Root - Left - Right):</strong> Pehle root node ko process karo, fir left subtree visit karo, fir right subtree visit करो. Tree ko copy karne ya expression trees mein use hota hai.</li>
+                                <li><strong>Postorder Traversal (Left - Right - Root):</strong> Pehle left subtree visit karo, fir right subtree visit करो, fir root node ko process karo. Tree ko delete karne (memory free karne) mein use hota hai.</li>
+                             </ul>
+                         </li>
+                          <li><strong>Breadth-First Search (BFS) / Level Order Traversal:</strong> Ismein hum tree ko level by level visit karte hain. Root (level 0), fir uske saare children (level 1), fir unke saare children (level 2), and so on. Isko implement karne ke liye Queue ka use kiya jaata hai.</li>
+                     </ol>
+                       <pre><code class="language-python">
+# Example Node Class
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+
+# --- Traversal Functions (Recursive DFS) ---
+
+def inorder(root):
+    if root:
+        # 1. Visit left subtree
+        inorder(root.left)
+        # 2. Process root node
+        print(root.val, end=" ")
+        # 3. Visit right subtree
+        inorder(root.right)
+
+def preorder(root):
+    if root:
+        # 1. Process root node
+        print(root.val, end=" ")
+        # 2. Visit left subtree
+        preorder(root.left)
+        # 3. Visit right subtree
+        preorder(root.right)
+
+def postorder(root):
+    if root:
+        # 1. Visit left subtree
+        postorder(root.left)
+        # 2. Visit right subtree
+        postorder(root.right)
+        # 3. Process root node
+        print(root.val, end=" ")
+
+# --- Level Order Traversal (BFS using Queue) ---
+from collections import deque
+
+def levelOrder(root):
+    if not root:
+        return
+
+    nodes_queue = deque([root]) # Queue mein root se shuru karo
+    while(len(nodes_queue) > 0):
+        curr_node = nodes_queue.popleft() # Front se node nikalo
+        print(curr_node.val, end=" ")
+
+        # Uske children ko queue ke rear mein add karo (agar hain)
+        if curr_node.left is not None:
+            nodes_queue.append(curr_node.left)
+        if curr_node.right is not None:
+            nodes_queue.append(curr_node.right)
+
+# --- Example Usage ---
+#      1
+#     / \
+#    2   3
+#   / \
+#  4   5
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+
+print("Inorder traversal: ", end="")
+inorder(root) # Output: 4 2 5 1 3
+print("\nPreorder traversal: ", end="")
+preorder(root) # Output: 1 2 4 5 3
+print("\nPostorder traversal: ", end="")
+postorder(root) # Output: 4 5 2 3 1
+print("\nLevel order traversal: ", end="")
+levelOrder(root) # Output: 1 2 3 4 5
+                       </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 4: BST Implementation -->
+            <div class="qa-item">
+                <button class="question">Binary Search Tree (BST) mein Insertion aur Searching kaise hoti hai?</button>
+                <div class="answer">
+                     <p>BST ki property (Left < Root < Right) insertion aur searching ko efficient banati hai.</p>
+                    <p><strong>Searching (O(log n) average, O(n) worst):</strong></p>
+                     <ol>
+                        <li>Root se shuru karo.</li>
+                         <li>Agar current node Null hai, toh key nahi mili.</li>
+                        <li>Agar search key current node ki key ke barabar hai, toh mil gayi.</li>
+                         <li>Agar search key current node ki key se *chhoti* hai, toh left subtree mein search karo.</li>
+                         <li>Agar search key current node ki key se *badi* hai, toh right subtree mein search karo.</li>
+                         <li>Yeh process recursively chalta hai.</li>
+                     </ol>
+                      <p><strong>Insertion (O(log n) average, O(n) worst):</strong></p>
+                      <ol>
+                        <li>Root se shuru karo. Naye node ko insert karne ke liye correct *khali* jagah dhoondhni hai.</li>
+                        <li>Agar tree khali hai, toh naya node root ban jayega.</li>
+                        <li>Current node se compare karo:
+                            <ul>
+                                <li>Agar nayi key current key se *chhoti* hai: Agar left child Null hai, toh naye node ko left child bana do. Agar nahi, toh left child pe jao aur step 3 repeat karo.</li>
+                                <li>Agar nayi key current key se *badi* (ya barabar) hai: Agar right child Null hai, toh naye node ko right child bana do. Agar nahi, toh right child pe jao aur step 3 repeat करो.</li>
+                            </ul>
+                        </li>
+                      </ol>
+                      <p><strong>Worst Case O(n):</strong> Yeh tab hota hai jab tree skewed (ek lambi chain jaisa) ban jaye, jaise agar aap sorted order mein elements insert karein. Balanced BSTs (AVL, Red-Black) isi problem ko solve karte hain.</p>
+                      <pre><code class="language-python">
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+
+# --- BST Insertion (Recursive) ---
+def insert(root, key):
+    # Agar tree khali hai ya sahi jagah mil gayi
+    if root is None:
+        return Node(key)
+    else:
+        # Key chhoti hai, left mein jao
+        if key < root.val:
+            root.left = insert(root.left, key)
+        # Key badi hai, right mein jao
+        else:
+            root.right = insert(root.right, key)
+    return root # Return the (possibly updated) root
+
+# --- BST Search (Recursive) ---
+def search(root, key):
+    # Base Cases: Root is null or key is present at root
+    if root is None or root.val == key:
+        return root
+
+    # Key root se badi hai
+    if key > root.val:
+        return search(root.right, key)
+
+    # Key root se chhoti hai
+    return search(root.left, key)
+
+# --- Example Usage ---
+r = Node(50) # Root banaya
+r = insert(r, 30)
+r = insert(r, 20)
+r = insert(r, 40)
+r = insert(r, 70)
+r = insert(r, 60)
+r = insert(r, 80)
+
+# Inorder traversal of BST gives sorted sequence
+print("Inorder traversal of BST: ", end="")
+inorder(r) # Output: 20 30 40 50 60 70 80
+print()
+
+# Search for a key
+key_to_search = 60
+result_node = search(r, key_to_search)
+if result_node:
+    print(f"Key {key_to_search} found in the BST.")
+else:
+    print(f"Key {key_to_search} not found.")
+
+key_to_search = 90
+result_node = search(r, key_to_search)
+if result_node:
+     print(f"Key {key_to_search} found in the BST.")
+else:
+    print(f"Key {key_to_search} not found.")
+
+                      </code></pre>
+                      <p>BST mein Deletion thoda zyada complex hota hai, uske liye alag cases handle karne padte hain (node ke 0, 1, ya 2 children hone par).</p>
+                </div>
+            </div>
+
+            <!-- Q&A 5: Use Cases -->
+             <div class="qa-item">
+                 <button class="question">Trees kahan use hote hain?</button>
+                 <div class="answer">
+                     <p>Trees bahut versatile hain aur kai jagah use hote hain:</p>
+                     <ul>
+                        <li><strong>File Systems:</strong> Computer mein folders (directories) aur files ka structure ek tree jaisa hota hai.</li>
+                         <li><strong>DOM (Document Object Model):</strong> Web pages ka HTML structure browser mein ek tree (DOM Tree) ki tarah represent hota hai.</li>
+                         <li><strong>Data Indexing:</strong> Databases efficient searching ke liye B-Trees ya B+ Trees use karte hain.</li>
+                         <li><strong>Searching & Sorting:</strong> BSTs efficient searching (O(log n)) provide karte hain. Heap data structure Heap Sort mein use hota hai aur Priority Queues banane mein.</li>
+                         <li><strong>Network Routing:</strong> Routing algorithms shortest path dhoondhne ke liye tree structures use kar sakte hain.</li>
+                         <li><strong>AI & Game Development:</strong> Decision Trees, Game Trees (Minimax algorithm) state space ko represent karne mein use hote hain.</li>
+                         <li><strong>Data Compression:</strong> Huffman coding algorithm tree ka use karta hai.</li>
+                         <li><strong>Syntax Trees:</strong> Compilers source code ko parse karke Abstract Syntax Tree (AST) banate hain.</li>
+                         <li><strong>Organization Charts:</strong> Company ka hierarchy represent karne ke liye.</li>
+                     </ul>
+                 </div>
+             </div>
+
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="hashing.html" class="prev-link">Previous: Hashing</a>
+            <a href="searching.html" class="next-link">Next: Searching</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+    <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

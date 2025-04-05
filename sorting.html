@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms - DSA Hinglish Mein</title>
+     <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* Add specific SVG styles if needed */
+        .comparison-table th, .comparison-table td { font-size: 0.9em; } /* Make table text smaller */
+     </style>
+</head>
+<body>
+     <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+         <header>
+            <h1>📊 Sorting Algorithms ko Arrange Karein 📊</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is Sorting? -->
+            <div class="qa-item">
+                <button class="question">Sorting Algorithm kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Sorting Algorithm ek process hai jisse hum kisi collection (jaise Array, List) ke elements ko ek specific order (jaise ascending - badhte hue kram mein, ya descending - ghatate hue kram mein) mein arrange karte hain.
+                    </p>
+                    <p>
+                        Sorting bahut hi fundamental operation hai computer science mein, kyunki sorted data par searching (jaise Binary Search) aur dusre operations bahut efficiently kiye ja sakte hain.
+                    </p>
+                    <p>
+                        Bahut saare alag-alag sorting algorithms hote hain, jinki working, time complexity, space complexity, aur stability alag-alag hoti hai.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Common Simple Sorts (O(n^2)) -->
+            <div class="qa-item">
+                <button class="question">Bubble Sort, Selection Sort, Insertion Sort kya hain? (Simple O(n^2) Sorts)</button>
+                <div class="answer">
+                    <p>Yeh teen basic sorting algorithms hain jo samajhne mein aasan hain lekin large datasets ke liye inefficient (O(n<sup>2</sup>) time complexity) hote hain.</p>
+                    <ol>
+                        <li>
+                            <strong>Bubble Sort:</strong>
+                            <ul>
+                                <li>Adjacent elements ko compare karta hai aur agar woh galat order mein hain toh swap kar deta hai.</li>
+                                <li>Yeh process poori list par baar-baar repeat hota hai jab tak ki koi swap na ho (matlab list sort ho gayi).</li>
+                                <li>Har pass mein sabse bada (ya chhota) element apni sahi jagah (end mein) "bubble up" ho jaata hai.</li>
+                                <li><strong>Time:</strong> O(n<sup>2</sup>) average/worst, O(n) best (agar list pehle se sorted hai aur optimized version use karein). <strong>Space:</strong> O(1). <strong>Stable:</strong> Haan.</li>
+                                <li>Generally practical use ke liye bahut slow hai.</li>
+                            </ul>
+                            <pre><code class="language-python">
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False # Optimization
+        # Last i elements are already in place
+        for j in range(0, n-i-1):
+            # Swap if the element found is greater than the next element
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if not swapped: # If no swaps happened in inner loop, array is sorted
+            break
+# Example: bubble_sort(my_list)
+                            </code></pre>
+                        </li>
+                        <li>
+                            <strong>Selection Sort:</strong>
+                             <ul>
+                                <li>List ko do hisso mein divide karta hai: sorted (shuru mein khali) aur unsorted.</li>
+                                <li>Unsorted part mein se sabse chhota (ya bada) element dhoondhta hai.</li>
+                                <li>Use unsorted part ke pehle element se swap kar deta hai (effectively use sorted part mein move kar deta hai).</li>
+                                <li>Sorted part ka size 1 se badh jaata hai, unsorted part ka 1 se kam ho jaata hai. Yeh process repeat hota hai.</li>
+                                <li><strong>Time:</strong> O(n<sup>2</sup>) in all cases (best, average, worst). <strong>Space:</strong> O(1). <strong>Stable:</strong> Nahi (generally implementation dependent).</li>
+                                <li>Bubble Sort se thoda behtar (kam swaps hote hain), lekin abhi bhi slow.</li>
+                            </ul>
+                             <pre><code class="language-python">
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        # Find the minimum element in remaining unsorted array
+        min_idx = i
+        for j in range(i+1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        # Swap the found minimum element with the first element
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+# Example: selection_sort(my_list)
+                             </code></pre>
+                        </li>
+                         <li>
+                             <strong>Insertion Sort:</strong>
+                              <ul>
+                                <li>Yeh bhi list ko sorted aur unsorted part mein divide karta hai.</li>
+                                <li>Unsorted part se ek element uthata hai.</li>
+                                <li>Use sorted part mein uski *correct position* pe insert karta hai (sorted part ke elements ko right shift karke jagah banata hai).</li>
+                                <li>Imagine karo cards khelte waqt naye card ko haath mein sahi jagah insert karna.</li>
+                                <li><strong>Time:</strong> O(n<sup>2</sup>) average/worst, O(n) best (agar list lagbhag sorted hai). <strong>Space:</strong> O(1). <strong>Stable:</strong> Haan.</li>
+                                <li>Chhote datasets ya lagbhag sorted data ke liye yeh O(n<sup>2</sup>) algorithms mein sabse accha perform karta hai. Kai efficient algorithms (like TimSort) isko internally use karte hain chhote subarrays ke liye.</li>
+                             </ul>
+                             <pre><code class="language-python">
+def insertion_sort(arr):
+    n = len(arr)
+    for i in range(1, n): # Start from the second element
+        key = arr[i] # Element to be inserted
+        j = i - 1    # Index of the last element in the sorted part
+        # Move elements of arr[0..i-1], that are greater than key,
+        # to one position ahead of their current position
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key # Insert the key at correct position
+# Example: insertion_sort(my_list)
+                            </code></pre>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Efficient Sorts (O(n log n)) -->
+             <div class="qa-item">
+                <button class="question">Merge Sort aur Quick Sort kya hain? (Efficient O(n log n) Sorts)</button>
+                <div class="answer">
+                    <p>Yeh 'Divide and Conquer' approach use karne wale efficient sorting algorithms hain, jo large datasets ke liye O(n<sup>2</sup>) sorts se bahut behtar hain.</p>
+                    <ol>
+                        <li>
+                            <strong>Merge Sort:</strong>
+                            <ul>
+                                <li><strong>Divide:</strong> List ko recursively do halves mein divide karte jao jab tak har sublist mein sirf ek element na bache (ek element wali list sorted hi hoti hai).</li>
+                                <li><strong>Conquer:</strong> Ab do sorted sublists ko merge karke ek nayi sorted list banao.</li>
+                                <li><strong>Combine:</strong> Yeh merging process recursively upar tak chalta hai jab tak poori list sort na ho jaye.</li>
+                                <li>Merging step important hai: Do sorted lists ko merge karne ke liye O(n) time lagta hai.</li>
+                                <li><strong>Time:</strong> O(n log n) in all cases (best, average, worst). Bahut predictable performance.</li>
+                                <li><strong>Space:</strong> O(n) (Merging ke liye temporary array/list ki zaroorat hoti hai). Yeh iski ek kami hai.</li>
+                                <li><strong>Stable:</strong> Haan.</li>
+                                <li>External sorting (jab data RAM mein fit na ho) ke liye accha hai.</li>
+                            </ul>
+                            <!-- Merge Sort Code Snippet can be complex, maybe just explain -->
+                             <pre><code class="language-python">
+# Merge Sort (Conceptual - Full code can be long)
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        L = arr[:mid] # Left half
+        R = arr[mid:] # Right half
+
+        merge_sort(L) # Sort first half
+        merge_sort(R) # Sort second half
+
+        # --- Merge the two sorted halves (L and R) back into arr ---
+        i = j = k = 0
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+        # Check if any element was left
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+# Example: merge_sort(my_list)
+                            </code></pre>
+                        </li>
+                         <li>
+                            <strong>Quick Sort:</strong>
+                             <ul>
+                                <li><strong>Divide:</strong> List mein se ek element ko 'Pivot' choose karo.</li>
+                                 <li><strong>Conquer (Partition):</strong> List ko rearrange karo (Partition step) aise ki pivot ke left mein saare elements usse chhote hon, aur right mein saare elements usse bade hon. Pivot apni final sorted position pe aa jaata hai.</li>
+                                 <li><strong>Combine:</strong> Pivot ke left wale subarray aur right wale subarray par recursively Quick Sort apply karo.</li>
+                                 <li>Performance pivot selection pe bahut depend karti hai. Accha pivot (jo list ko lagbhag beech se baante) O(n log n) deta hai. Kharab pivot (jaise sabse chhota ya sabse bada element) O(n<sup>2</sup>) worst case de sakta hai.</li>
+                                <li><strong>Time:</strong> O(n log n) average/best, O(n<sup>2</sup>) worst. Random pivot selection ya 'median-of-three' strategy worst case avoid karne mein madad karti hai.</li>
+                                <li><strong>Space:</strong> O(log n) average (recursion call stack), O(n) worst. In-place partition possible hai, isliye Merge Sort se kam space use karta hai typically.</li>
+                                <li><strong>Stable:</strong> Nahi (typical implementations stable nahi hoti).</li>
+                                <li>Practice mein aksar Merge Sort se fast hota hai (better constant factors, cache friendly). Yeh bahut widely used hai.</li>
+                            </ul>
+                            <!-- Quick Sort Code Snippet can also be complex -->
+                             <pre><code class="language-python">
+# Quick Sort (Conceptual - Partition logic is key)
+
+def partition(arr, low, high):
+    pivot = arr[high] # Choose the last element as pivot
+    i = low - 1       # Index of smaller element
+
+    for j in range(low, high):
+        # If current element is smaller than or equal to pivot
+        if arr[j] <= pivot:
+            i = i + 1
+            arr[i], arr[j] = arr[j], arr[i] # Swap
+
+    arr[i + 1], arr[high] = arr[high], arr[i + 1] # Swap pivot to correct position
+    return (i + 1) # Return partition index
+
+def quick_sort_recursive(arr, low, high):
+    if low < high:
+        pi = partition(arr, low, high) # pi is partitioning index
+
+        # Separately sort elements before partition and after partition
+        quick_sort_recursive(arr, low, pi - 1)
+        quick_sort_recursive(arr, pi + 1, high)
+
+def quick_sort(arr):
+     quick_sort_recursive(arr, 0, len(arr)-1)
+
+# Example: quick_sort(my_list)
+                            </code></pre>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Q&A 4: Heap Sort -->
+             <div class="qa-item">
+                <button class="question">Heap Sort kya hai?</button>
+                <div class="answer">
+                     <p>Heap Sort ek comparison-based sorting algorithm hai jo 'Heap' data structure (usually Max-Heap) ka use karta hai.</p>
+                     <p><strong>Kaise Kaam Karta Hai:</strong></p>
+                     <ol>
+                        <li><strong>Build Max-Heap:</strong> Input array ko Max-Heap mein convert karo. Max-Heap mein sabse bada element hamesha root pe hota hai. (Yeh O(n) time mein ho sakta hai using heapify).</li>
+                        <li><strong>Sort:</strong>
+                            <ul>
+                                <li>Root element (jo abhi sabse bada hai) ko heap ke *aakhri* element se swap karo. Ab sabse bada element array ke end mein apni sahi jagah pe hai.</li>
+                                <li>Heap ka size 1 se kam kar do (aakhri element ko consider mat karo).</li>
+                                <li>Naye root pe 'heapify' operation perform karo taaki heap property dobara restore ho jaye (sabse bada element fir se root pe aa jaye).</li>
+                                <li>Step 2 ko repeat karte jao jab tak heap ka size 1 na ho jaye.</li>
+                            </ul>
+                        </li>
+                     </ol>
+                       <p><strong>Khasiyat:</strong></p>
+                     <ul>
+                         <li><strong>Time Complexity:</strong> O(n log n) in all cases (best, average, worst). Building heap is O(n) and each of the n deletions/heapify takes O(log n).</li>
+                         <li><strong>Space Complexity:</strong> O(1) (In-place sorting hai, koi significant extra space nahi chahiye). Yeh iska bada advantage hai Merge Sort ke upar.</li>
+                          <li><strong>Stable:</strong> Nahi.</li>
+                     </ul>
+                      <p>Selection Sort ka improved version mana jaa sakta hai (har baar maximum element dhoondh ke sahi jagah rakhna, lekin heap se maximum dhoondhna O(log n) mein ho jaata hai bajaye O(n) ke).</p>
+                      <!-- Heap Sort code is also a bit involved -->
+                       <pre><code class="language-python">
+# Heap Sort (Conceptual - Heapify is the core)
+
+def heapify(arr, n, i): # To heapify subtree rooted at index i
+    largest = i    # Initialize largest as root
+    l = 2 * i + 1  # left = 2*i + 1
+    r = 2 * i + 2  # right = 2*i + 2
+
+    # See if left child of root exists and is greater than root
+    if l < n and arr[l] > arr[largest]:
+        largest = l
+    # See if right child of root exists and is greater than largest so far
+    if r < n and arr[r] > arr[largest]:
+        largest = r
+    # Change root, if needed
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i] # swap
+        # Heapify the root.
+        heapify(arr, n, largest)
+
+def heap_sort(arr):
+    n = len(arr)
+    # Build a maxheap. Start from the last non-leaf node.
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+    # One by one extract elements
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i] # swap (move current root to end)
+        heapify(arr, i, 0) # call max heapify on the reduced heap
+
+# Example: heap_sort(my_list)
+                       </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 5: Comparison & Stability -->
+             <div class="qa-item">
+                <button class="question">Sorting Algorithms ko compare kaise karein? Stability kya hoti hai?</button>
+                <div class="answer">
+                    <p>Algorithms ko compare karne ke liye hum dekhte hain:</p>
+                    <ul>
+                        <li><strong>Time Complexity (Best, Average, Worst):</strong> Kitna time lagega input size (n) ke hisab se. O(n log n) ko efficient mana jaata hai.</li>
+                        <li><strong>Space Complexity (Auxiliary Space):</strong> Kitni extra memory lagegi (input array ke alawa). O(1) (in-place) desirable hai.</li>
+                        <li><strong>Stability:</strong> Ek sorting algorithm 'Stable' tab kehlata hai jab equal elements ka relative order sorting ke baad bhi waisa hi rahe jaisa input mein tha.
+                            <ul>
+                                <li>Example: Agar list hai `[(5, 'A'), (3, 'B'), (5, 'C')]` aur hum 5 ko sort kar rahe hain. Stable sort ke baad result hoga `[(3, 'B'), (5, 'A'), (5, 'C')]` ('A' 'C' se pehle hi hai). Unstable sort `[(3, 'B'), (5, 'C'), (5, 'A')]` bhi de sakta hai.</li>
+                                <li>Stability important hoti hai jab aap multiple criteria pe sort kar rahe hon.</li>
+                                <li>Bubble Sort, Insertion Sort, Merge Sort **stable** hain.</li>
+                                <li>Selection Sort, Quick Sort, Heap Sort **unstable** hain (typical implementations).</li>
+                            </ul>
+                        </li>
+                         <li><strong>Implementation Complexity:</strong> Algorithm ko code karna kitna aasan ya mushkil hai.</li>
+                          <li><strong>Data Specific Performance:</strong> Kuch algorithms specific type ke data (e.g., nearly sorted) pe accha perform karte hain (jaise Insertion Sort).</li>
+                    </ul>
+
+                    <h4>Quick Comparison Table:</h4>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Time (Avg)</th>
+                                <th>Time (Worst)</th>
+                                <th>Space (Aux)</th>
+                                <th>Stable?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr><td>Bubble Sort</td><td>O(n<sup>2</sup>)</td><td>O(n<sup>2</sup>)</td><td>O(1)</td><td>Yes</td></tr>
+                             <tr><td>Selection Sort</td><td>O(n<sup>2</sup>)</td><td>O(n<sup>2</sup>)</td><td>O(1)</td><td>No</td></tr>
+                             <tr><td>Insertion Sort</td><td>O(n<sup>2</sup>)</td><td>O(n<sup>2</sup>)</td><td>O(1)</td><td>Yes</td></tr>
+                             <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td></tr>
+                             <tr><td>Quick Sort</td><td>O(n log n)</td><td>O(n<sup>2</sup>)</td><td>O(log n) / O(n)</td><td>No</td></tr>
+                              <tr><td>Heap Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>No</td></tr>
+                               <tr><td>TimSort (Python default)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Yes</td></tr>
+                               <tr><td>IntroSort (C++ default)</td><td>O(n log n)</td><td>O(n log n)</td><td>O(log n)</td><td>No</td></tr>
+                        </tbody>
+                    </table>
+                     <p><strong>Note:</strong> Python ka default `sort()` ya `sorted()` TimSort use karta hai, jo Merge Sort aur Insertion Sort ka hybrid hai aur real-world data pe bahut accha perform karta hai. C++ ka `std::sort` IntroSort use karta hai (QuickSort, HeapSort, InsertionSort ka hybrid).</p>
+                </div>
+            </div>
+
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="searching.html" class="prev-link">Previous: Searching</a>
+            <!-- Updated Next Link -->
+            <a href="recursion.html" class="next-link">Next: Recursion</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+     <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

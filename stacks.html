@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacks ke Stacks - DSA Hinglish Mein</title>
+    <!-- Prism JS Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+     <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        .visualization-container svg { border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9; border-radius: var(--border-radius); max-width: 100%; height: auto; }
+        .svg-stack-box { stroke: #333; stroke-width: 1.5; fill: #fff8dc; /* Light yellow */ }
+        .svg-text { font-family: var(--body-font); font-size: 14px; fill: #000; text-anchor: middle; }
+        .svg-label { font-family: var(--body-font); font-size: 13px; fill: #d9534f; font-weight: bold; text-anchor: middle;}
+        .svg-top-pointer { stroke: #007bff; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+     </style>
+</head>
+<body>
+    <!-- Arrowhead Definition for SVG -->
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/>
+            </marker>
+        </defs>
+    </svg>
+
+    <div class="container">
+        <header>
+            <h1>📚 Stacks ke Stacks 📚</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+             <h2>Common Interview Questions & Concepts:</h2>
+
+             <!-- Q&A 1: Definition -->
+            <div class="qa-item">
+                <button class="question">Stack kya hota hai? Yeh kaise kaam karta hai?</button>
+                <div class="answer">
+                    <p>
+                        Stack ek linear data structure hai jo ek khaas order follow karta hai: <strong>LIFO (Last-In, First-Out)</strong>. Iska matlab hai jo element sabse aakhir mein daala gaya (push kiya gaya), wohi sabse pehle nikala jayega (pop kiya jayega).
+                    </p>
+                    <p>
+                        Imagine karo plates ka ek stack (dher). Aap nayi plate sabse upar rakhte ho (Push) aur jab plate nikalni hoti hai, toh bhi sabse upar wali hi nikalte ho (Pop). Aap beech mein se plate nahi nikal sakte.
+                    </p>
+
+                    <!-- SVG Visualization Start -->
+                    <div class="visualization-container">
+                        <svg width="200" height="220" viewBox="0 0 200 220">
+                            <title>Stack Structure (LIFO)</title>
+                            <desc>Stack 3 elements ke saath, Top pointer upar wale element ko point kar raha hai.</desc>
+
+                            <!-- Stack Container (Visual) -->
+                            <line x1="40" y1="200" x2="160" y2="200" stroke="#333" stroke-width="2"/> <!-- Base -->
+                            <line x1="40" y1="50" x2="40" y2="200" stroke="#333" stroke-width="2"/> <!-- Left Wall -->
+                            <line x1="160" y1="50" x2="160" y2="200" stroke="#333" stroke-width="2"/> <!-- Right Wall -->
+
+                            <!-- Stack Elements -->
+                            <rect class="svg-stack-box" x="50" y="160" width="100" height="35" rx="3"></rect>
+                            <text class="svg-text" x="100" y="183">A (First In)</text>
+
+                            <rect class="svg-stack-box" x="50" y="120" width="100" height="35" rx="3"></rect>
+                            <text class="svg-text" x="100" y="143">B</text>
+
+                            <rect class="svg-stack-box" x="50" y="80" width="100" height="35" rx="3"></rect>
+                            <text class="svg-text" x="100" y="103">C (Last In)</text>
+
+                             <!-- Top Pointer -->
+                             <text class="svg-label" x="100" y="40">Top</text>
+                             <line class="svg-top-pointer" x1="100" y1="50" x2="100" y2="75" />
+
+                        </svg>
+                    </div>
+                    <!-- SVG Visualization End -->
+
+                    <p>Upar diagram mein 'C' sabse aakhir mein daala gaya tha, isliye 'Top' pointer usi ko point kar raha hai. Agar hum 'Pop' karenge, toh 'C' hi niklega. Agar 'Push' karenge, toh naya element 'C' ke upar aayega.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Operations -->
+            <div class="qa-item">
+                <button class="question">Stack ke main operations kya hain aur unki complexity?</button>
+                <div class="answer">
+                    <p>Stack ke primary operations hote hain:</p>
+                    <ul>
+                        <li><strong>Push:</strong> Stack ke 'Top' par ek naya element add karna.</li>
+                        <li><strong>Pop:</strong> Stack ke 'Top' se element ko remove karna aur (optional) return karna.</li>
+                        <li><strong>Peek (ya Top):</strong> Stack ke 'Top' element ko dekhna (bina remove kiye).</li>
+                        <li><strong>isEmpty:</strong> Check karna ki stack khali hai ya nahi.</li>
+                        <li><strong>isFull (Optional):</strong> Agar stack ka size fixed hai (e.g., array implementation), toh check karna ki stack full hai ya nahi.</li>
+                        <li><strong>Size:</strong> Stack mein kitne elements hain, yeh pata karna.</li>
+                    </ul>
+                     <p><strong>Time Complexity:</strong> Agar stack ko Array/List ya Linked List se implement kiya gaya ho, toh Push, Pop, Peek, isEmpty sabhi operations <strong>O(1)</strong> (Constant Time) mein ho jaate hain, jo ki bahut efficient hai!</p>
+                     <p><strong>Space Complexity:</strong> O(n), jahan 'n' stack mein store kiye gaye elements ki sankhya hai.</p>
+                </div>
+            </div>
+
+             <!-- Q&A 3: Implementation -->
+            <div class="qa-item">
+                <button class="question">Stack ko kaise implement kar sakte hain?</button>
+                <div class="answer">
+                    <p>Stack ko do common tareekon se implement kiya jaa sakta hai:</p>
+                    <ol>
+                        <li>
+                            <strong>Using Array (or List in Python):</strong>
+                            <ul>
+                                <li>Ek array/list lein.</li>
+                                <li>'Top' ko track karne ke liye ek variable (index) rakhein. Initially -1 ya size 0.</li>
+                                <li>Push: Element ko 'Top' ke agle index pe daalein aur 'Top' ko badhayein. Check karein ki array full toh nahi.</li>
+                                <li>Pop: 'Top' index se element nikaalein aur 'Top' ko ghatayein. Check karein ki array khali toh nahi.</li>
+                                <li>Peek: 'Top' index wale element ko return karein.</li>
+                                <li>Python mein List ke built-in `append()` (push ke liye) aur `pop()` methods LIFO behaviour dete hain, isliye list se stack banana bahut aasan hai.</li>
+                            </ul>
+                        </li>
+                        <li>
+                             <strong>Using Linked List:</strong>
+                             <ul>
+                                 <li>Ek Singly Linked List use karein.</li>
+                                 <li>Push: Naye element ko list ke *beginning* (Head) mein add karein (O(1) operation). Head pointer naye node ko point karega.</li>
+                                 <li>Pop: List ke *beginning* (Head) se node ko remove karein (O(1) operation). Head pointer agle node ko point karega.</li>
+                                 <li>Peek: Head node ka data return karein.</li>
+                                 <li>Ismein stack 'overflow' (full hone) ki chinta nahi hoti (jab tak memory available hai).</li>
+                             </ul>
+                        </li>
+                    </ol>
+                    <p><strong>Python mein List se simple implementation:</strong></p>
+                     <pre><code class="language-python">
+my_stack = [] # Ek khali list ko stack ki tarah use karenge
+
+# Push operations
+my_stack.append('A') # Stack: ['A']
+my_stack.append('B') # Stack: ['A', 'B']
+my_stack.append('C') # Stack: ['A', 'B', 'C']  <- Top is 'C'
+
+print("Current Stack:", my_stack)
+
+# Peek operation (last element)
+top_element = my_stack[-1]
+print("Top element (Peek):", top_element) # Output: C
+
+# Pop operation
+popped_element = my_stack.pop()
+print("Popped element:", popped_element) # Output: C
+print("Stack after pop:", my_stack) # Output: ['A', 'B']
+
+popped_element = my_stack.pop()
+print("Popped element:", popped_element) # Output: B
+print("Stack after pop:", my_stack) # Output: ['A']
+
+# isEmpty check
+if not my_stack: # Check if list is empty
+    print("Stack is empty")
+else:
+    print("Stack is not empty")
+
+                     </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 4: Use Cases -->
+            <div class="qa-item">
+                <button class="question">Stacks kahan use hote hain?</button>
+                <div class="answer">
+                    <p>Stacks ke bahut saare practical applications hain:</p>
+                    <ul>
+                        <li><strong>Function Call Management:</strong> Programming languages function calls (aur unke local variables) ko manage karne ke liye 'Call Stack' ka use karti hain.</li>
+                        <li><strong>Undo/Redo Functionality:</strong> Text editors ya software mein 'Undo' operation implement karne ke liye (har action ko stack pe push karo, undo ke liye pop karo).</li>
+                        <li><strong>Expression Evaluation:</strong> Infix expression ko Postfix/Prefix mein convert karna ya Postfix/Prefix expression ko evaluate karna.</li>
+                        <li><strong>Parentheses Checking:</strong> Code mein brackets `{}`, parentheses `()`, square brackets `[]` sahi se balanced hain ya nahi, yeh check karna.</li>
+                        <li><strong>Backtracking Algorithms:</strong> Maze solving ya problems jahan explore karke wapas aana padta hai (e.g., Depth First Search - DFS implicitly stack use karta hai).</li>
+                         <li><strong>Browser History:</strong> Browser mein 'Back' button ka functionality (har visit ko stack pe push karo).</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+
+         <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <!-- Previous Link -->
+            <a href="linked-lists.html" class="prev-link">Previous: Linked Lists</a>
+
+            <!-- Next Link (Assuming Queues is next) -->
+            <a href="queues.html" class="next-link">Next: Queues</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+             <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div> <!-- .container ends -->
+
+    <!-- JS Links -->
+    <!-- Prism JS Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

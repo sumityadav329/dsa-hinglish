@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queues ki Line - DSA Hinglish Mein</title>
+     <!-- Prism JS Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+     <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        .visualization-container svg { border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9; border-radius: var(--border-radius); max-width: 100%; height: auto; }
+        .svg-queue-box { stroke: #333; stroke-width: 1.5; fill: #e0ffff; /* Light cyan */ }
+        .svg-text { font-family: var(--body-font); font-size: 14px; fill: #000; text-anchor: middle; }
+        .svg-label { font-family: var(--body-font); font-size: 13px; fill: #d9534f; font-weight: bold; text-anchor: middle;}
+        .svg-pointer { stroke: #007bff; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+     </style>
+</head>
+<body>
+     <!-- Arrowhead Definition for SVG -->
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/>
+            </marker>
+        </defs>
+    </svg>
+
+     <div class="container">
+        <header>
+            <h1>🚶 Queues ki Line 🚶</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+             <h2>Common Interview Questions & Concepts:</h2>
+
+              <!-- Q&A 1: Definition -->
+            <div class="qa-item">
+                <button class="question">Queue kya hoti hai? Stack se kaise alag hai?</button>
+                <div class="answer">
+                    <p>
+                        Queue bhi ek linear data structure hai, lekin yeh Stack se ulta kaam karti hai. Queue <strong>FIFO (First-In, First-Out)</strong> principle follow karti hai. Iska matlab hai jo element sabse pehle daala gaya (enqueue kiya gaya), wohi sabse pehle nikala jayega (dequeue kiya jayega).
+                    </p>
+                    <p>
+                        Imagine karo ek ticket counter ki line (queue). Jo banda sabse pehle line mein laga (First-In), usi ko sabse pehle ticket milega (First-Out). Naye log hamesha line ke *peeche* lagte hain.
+                    </p>
+                     <p>Queue ke do ends hote hain:</p>
+                     <ul>
+                         <li><strong>Front (ya Head):</strong> Jahan se elements remove (dequeue) hote hain.</li>
+                         <li><strong>Rear (ya Tail):</strong> Jahan naye elements add (enqueue) hote hain.</li>
+                     </ul>
+
+                     <!-- SVG Visualization Start -->
+                    <div class="visualization-container">
+                        <svg width="400" height="150" viewBox="0 0 400 150">
+                            <title>Queue Structure (FIFO)</title>
+                            <desc>Queue 3 elements ke saath, Front pehla element, Rear aakhri element.</desc>
+
+                             <!-- Queue Elements -->
+                            <rect class="svg-queue-box" x="50" y="50" width="80" height="40" rx="3"></rect>
+                            <text class="svg-text" x="90" y="75">A (First In)</text>
+
+                            <rect class="svg-queue-box" x="150" y="50" width="80" height="40" rx="3"></rect>
+                            <text class="svg-text" x="190" y="75">B</text>
+
+                            <rect class="svg-queue-box" x="250" y="50" width="80" height="40" rx="3"></rect>
+                            <text class="svg-text" x="290" y="75">C (Last In)</text>
+
+                             <!-- Front Pointer -->
+                             <text class="svg-label" x="90" y="30">Front</text>
+                             <line class="svg-pointer" x1="90" y1="35" x2="90" y2="48" />
+
+                             <!-- Rear Pointer -->
+                              <text class="svg-label" x="290" y="110">Rear</text>
+                             <line class="svg-pointer" x1="290" y1="105" x2="290" y2="92" />
+
+                             <!-- Direction Arrows (Optional) -->
+                             <text class="svg-label" x="20" y="78">Dequeue ➡️</text>
+                             <text class="svg-label" x="350" y="78">⬅️ Enqueue</text>
+                        </svg>
+                    </div>
+                    <!-- SVG Visualization End -->
+
+                    <p>Upar diagram mein 'A' sabse pehle aaya tha, isliye 'Front' use point kar raha hai. 'C' sabse aakhir mein aaya, isliye 'Rear' use point kar raha hai. Agar hum 'Dequeue' karenge, toh 'A' niklega. Agar 'Enqueue' karenge, toh naya element 'C' ke baad (Rear mein) add hoga.</p>
+                    <p><strong>Stack se Fark:</strong> Stack LIFO hai (Last-In, First-Out), jabki Queue FIFO hai (First-In, First-Out).</p>
+                </div>
+            </div>
+
+             <!-- Q&A 2: Operations -->
+            <div class="qa-item">
+                <button class="question">Queue ke main operations kya hain aur unki complexity?</button>
+                <div class="answer">
+                     <p>Queue ke primary operations hote hain:</p>
+                    <ul>
+                        <li><strong>Enqueue:</strong> Queue ke 'Rear' (end) mein ek naya element add karna.</li>
+                        <li><strong>Dequeue:</strong> Queue ke 'Front' (start) se element ko remove karna aur (optional) return karna.</li>
+                        <li><strong>Peek (ya Front):</strong> Queue ke 'Front' element ko dekhna (bina remove kiye).</li>
+                         <li><strong>isEmpty:</strong> Check karna ki queue khali hai ya nahi.</li>
+                         <li><strong>isFull (Optional):</strong> Agar queue ka size fixed hai (e.g., array implementation), toh check karna ki queue full hai ya nahi.</li>
+                         <li><strong>Size:</strong> Queue mein kitne elements hain, yeh pata karna.</li>
+                    </ul>
+                     <p><strong>Time Complexity:</strong></p>
+                     <ul>
+                        <li>Agar Queue ko **Linked List** (Doubly ya Singly with Tail pointer) se implement kiya gaya ho, toh Enqueue (end mein add karna) aur Dequeue (beginning se remove karna) dono <strong>O(1)</strong> hote hain.</li>
+                        <li>Agar Queue ko simple **Array/List** se implement kiya jaye, toh Enqueue (end mein add karna) O(1) (amortized) ho sakta hai, lekin Dequeue (beginning se remove karna) <strong>O(n)</strong> ho jayega kyunki baaki elements ko shift karna padega. Is problem se bachne ke liye 'Circular Queue' ka concept use kiya jaata hai Array implementation ke saath, jisse Dequeue bhi O(1) ho jaata hai.</li>
+                        <li>Peek aur isEmpty hamesha <strong>O(1)</strong> hote hain.</li>
+                     </ul>
+                      <p><strong>Space Complexity:</strong> O(n), jahan 'n' queue mein store kiye gaye elements ki sankhya hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Implementation -->
+            <div class="qa-item">
+                <button class="question">Queue ko kaise implement kar sakte hain?</button>
+                <div class="answer">
+                    <p>Queue ko implement karne ke common tareeke hain:</p>
+                    <ol>
+                        <li>
+                            <strong>Using Linked List:</strong>
+                             <ul>
+                                 <li>Ek Singly Linked List use karein jisme 'Head' (Front ke liye) aur 'Tail' (Rear ke liye) dono pointers maintain kiye gaye hon.</li>
+                                 <li>Enqueue: Naye element ko list ke *end* (Tail) mein add karein aur Tail pointer ko update karein (O(1)).</li>
+                                 <li>Dequeue: List ke *beginning* (Head) se node ko remove karein aur Head pointer ko update karein (O(1)).</li>
+                                 <li>Yeh dynamic hai aur overflow ki chinta kam hoti hai.</li>
+                             </ul>
+                        </li>
+                        <li>
+                             <strong>Using Array/List:</strong>
+                             <ul>
+                                 <li>Ek fixed-size array ya dynamic list use karein.</li>
+                                 <li>'Front' aur 'Rear' ko track karne ke liye do index variables rakhein.</li>
+                                 <li>Enqueue: Element ko 'Rear' index pe daalein aur 'Rear' ko badhayein.</li>
+                                 <li>Dequeue: Element ko 'Front' index se nikaalein aur 'Front' ko badhayein.</li>
+                                 <li>Simple Array mein Dequeue O(n) ho sakta hai shifting ki wajah se. Isliye **Circular Queue** use ki jaati hai: Jab Rear ya Front array ke end tak pahunch jaye, toh woh wapas 0 pe wrap around ho jaate hain (using modulo operator `%`). Isse space efficiently use hoti hai aur Enqueue/Dequeue dono O(1) ho jaate hain (jab tak queue full/empty na ho).</li>
+                             </ul>
+                        </li>
+                         <li>
+                            <strong>Using Python's `collections.deque`:</strong>
+                             <ul>
+                                <li>Python mein `collections.deque` ("deck" pronounce karte hain) ek double-ended queue hai jo dono ends se efficiently (O(1)) elements add/remove karne ke liye optimized hai. Yeh Queue implement karne ka sabse aasan aur recommended tareeka hai Python mein.</li>
+                             </ul>
+                         </li>
+                    </ol>
+                     <p><strong>Python mein `collections.deque` se simple implementation:</strong></p>
+                      <pre><code class="language-python">
+from collections import deque # deque ko import karna padega
+
+my_queue = deque() # Ek khali deque banaya
+
+# Enqueue operations (using append for rear)
+my_queue.append('User1') # Queue: deque(['User1']) <- Front/Rear
+my_queue.append('User2') # Queue: deque(['User1', 'User2']) <- Front is User1, Rear is User2
+my_queue.append('User3') # Queue: deque(['User1', 'User2', 'User3']) <- Rear is User3
+
+print("Current Queue:", my_queue)
+
+# Peek operation (using index 0 for front)
+front_element = my_queue[0]
+print("Front element (Peek):", front_element) # Output: User1
+
+# Dequeue operation (using popleft for front)
+dequeued_element = my_queue.popleft()
+print("Dequeued element:", dequeued_element) # Output: User1
+print("Queue after dequeue:", my_queue) # Output: deque(['User2', 'User3'])
+
+dequeued_element = my_queue.popleft()
+print("Dequeued element:", dequeued_element) # Output: User2
+print("Queue after dequeue:", my_queue) # Output: deque(['User3'])
+
+# isEmpty check
+if not my_queue: # Check if deque is empty
+    print("Queue is empty")
+else:
+    print("Queue is not empty")
+                      </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 4: Use Cases -->
+            <div class="qa-item">
+                <button class="question">Queues kahan use hoti hain?</button>
+                <div class="answer">
+                    <p>Queues FIFO nature ki wajah se kai jagah use hoti hain:</p>
+                    <ul>
+                        <li><strong>Resource Sharing:</strong> Operating Systems mein processes ko CPU time ya shared resources (like printer) allocate karne ke liye. Jo process pehle request karti hai, use pehle resource milti hai.</li>
+                        <li><strong>Asynchronous Data Transfer:</strong> Jab data produce hone ki speed consume hone ki speed se alag ho (e.g., IO Buffers, Pipes). Data ko queue mein rakha jaata hai.</li>
+                        <li><strong>Breadth-First Search (BFS):</strong> Graph ya Tree ko level by level traverse karne ke liye BFS algorithm queue ka use karta hai.</li>
+                        <li><strong>Job Scheduling:</strong> Background tasks ya jobs ko process karne ke liye (e.g., print queue, server request handling).</li>
+                        <li><strong>Customer Service Systems:</strong> Call centers ya service desks pe incoming requests ko handle karne ke liye.</li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+             <!-- Previous Link -->
+            <a href="stacks.html" class="prev-link">Previous: Stacks</a>
+
+            <!-- Next Link (Assuming Hashing is next) -->
+            <a href="hashing.html" class="next-link">Next: Hashing</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+         <footer>
+             <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div> <!-- .container ends -->
+
+     <!-- JS Links -->
+    <!-- Prism JS Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

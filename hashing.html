@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashing ke Concepts - DSA Hinglish Mein</title>
+    <!-- CSS and JS Links (Prism, style.css) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+    <style>
+        /* Add relevant SVG styles here if using SVG */
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* ... other SVG styles ... */
+    </style>
+</head>
+<body>
+    <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+        <header>
+            <h1>🔑 Hashing ke Concepts 🔑</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is Hashing? -->
+            <div class="qa-item">
+                <button class="question">Hashing kya hoti hai?</button>
+                <div class="answer">
+                    <p>
+                        Hashing ek technique hai jisme hum kisi bhi data (jaise string, number, object) ko ek chote, fixed-size value mein convert karte hain. Is fixed-size value ko 'Hash Value' ya 'Hash Code' kehte hain. Yeh conversion ek special function se hota hai jise 'Hash Function' kehte hain.
+                    </p>
+                    <p>
+                        Imagine karo aapke paas bahut saari alag-alag size ki keys (chabiyan) hain. Hash function ek aisa mechanism hai jo har key ko ek specific drawer number (hash value) assign karta hai. Toh aap key ko direct us drawer mein rakh sakte ho ya dhoondh sakte ho.
+                    </p>
+                    <p>
+                        Hashing ka main use 'Hash Table' (ya Hash Map) data structure banane mein hota hai, jo data ko bahut tezi se store aur retrieve karne mein madad karta hai (average case mein O(1) time mein).
+                    </p>
+                </div>
+            </div>
+
+             <!-- Q&A 2: Hash Function -->
+            <div class="qa-item">
+                <button class="question">Ek accha Hash Function kaisa hona chahiye?</button>
+                <div class="answer">
+                    <p>Ek acche Hash Function ki kuch properties hoti hain:</p>
+                    <ul>
+                        <li><strong>Deterministic:</strong> Same input ke liye hamesha same hash value generate kare.</li>
+                        <li><strong>Efficiently Computable:</strong> Hash value calculate karna fast hona chahiye (ideally O(1) ya input key ki length ke proportional).</li>
+                        <li><strong>Uniform Distribution:</strong> Keys ko hash table ke slots (indices) mein evenly distribute kare. Aisa na ho ki saari keys ek hi slot mein jaane lagein (isse collisions badhte hain).</li>
+                        <li><strong>Low Collision Rate:</strong> Alag-alag keys ke liye same hash value generate hone ke chances kam se kam hone chahiye (Collision kam ho). Bilkul zero collision possible nahi hota (Pigeonhole Principle), lekin function ko ise minimize karna chahiye.</li>
+                         <li><strong>Avalanche Effect (Desirable):</strong> Input mein chhota sa change karne par output hash value mein bada change aana chahiye. Yeh predictability ko kam karta hai.</li>
+                    </ul>
+                </div>
+            </div>
+
+             <!-- Q&A 3: Hash Table / Hash Map -->
+            <div class="qa-item">
+                <button class="question">Hash Table (ya Hash Map) kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Hash Table ek data structure hai jo `(Key, Value)` pairs ko store karta hai. Yeh hashing technique ka use karke Key ko ek index (ya slot) mein convert karta hai, aur us index par Value ko (ya Key-Value pair ko) store karta hai.
+                    </p>
+                    <p>
+                        Iska structure basically ek array jaisa hota hai (jise 'Buckets' ya 'Slots' kehte hain). Jab aapko koi Key-Value pair insert karna hota hai:
+                    </p>
+                    <ol>
+                        <li>Key ka Hash Function use karke hash value calculate karo.</li>
+                        <li>Hash value ko array ke size se modulo (%) karke ek valid index nikalo.</li>
+                        <li>Us index par Value (ya Key-Value pair) ko store karo.</li>
+                    </ol>
+                    <p>
+                        Search/Retrieve karne ke liye bhi same process follow hota hai: Key se index calculate karo aur us index pe jaakar Value dhoondh lo.
+                    </p>
+                    <p>
+                        Python mein `dictionary` (`dict`) aur Java mein `HashMap` hash table ke common implementations hain.
+                    </p>
+                    <!-- Simple Hash Table SVG can be added here -->
+                </div>
+            </div>
+
+             <!-- Q&A 4: Collision Handling -->
+            <div class="qa-item">
+                <button class="question">Hash Collision kya hota hai aur ise kaise handle karte hain?</button>
+                <div class="answer">
+                    <p>
+                        <strong>Collision</strong> tab hota hai jab do alag-alag Keys ke liye Hash Function same index generate kar deta hai. Kyunki ek array slot pe ek hi item directly aa sakta hai, humein collision ko handle karne ke tareeke chahiye.
+                    </p>
+                    <p>Collision handling ke do popular methods hain:</p>
+                    <ol>
+                        <li>
+                            <strong>Separate Chaining (Open Hashing):</strong>
+                            <ul>
+                                <li>Har array slot (bucket) pe ek item store karne ke bajaye, hum ek Linked List (ya koi aur data structure jaise balanced tree) maintain karte hain.</li>
+                                <li>Jab collision hota hai (matlab naya Key-Value pair usi index pe aata hai jahan pehle se kuch hai), toh naye pair ko us index ki Linked List mein add kar dete hain.</li>
+                                <li>Search karte waqt, pehle index calculate karte hain, fir us index ki Linked List mein jaakar correct Key ko search karte hain.</li>
+                                <li>Yeh sabse common method hai. Performance tab degrade hoti hai jab ek hi list bahut lambi ho jaye.</li>
+                            </ul>
+                             <!-- SVG for Separate Chaining -->
+                        </li>
+                        <li>
+                            <strong>Open Addressing (Closed Hashing):</strong>
+                            <ul>
+                                <li>Saare Key-Value pairs ko array ke andar hi store kiya jaata hai. Koi Linked List nahi hoti.</li>
+                                <li>Jab collision hota hai, toh hum ek "probing" sequence follow karke agla *khali* slot dhoondhte hain aur wahan item ko daal dete hain.</li>
+                                <li>Probing ke tareeke:
+                                    <ul>
+                                        <li><strong>Linear Probing:</strong> Agla slot (index + 1), fir uske agla (index + 2), and so on (wrap around if needed). Isse 'Primary Clustering' ki problem ho sakti hai (bhare hue slots ke groups ban jaate hain).</li>
+                                        <li><strong>Quadratic Probing:</strong> Agla slot (index + 1<sup>2</sup>), fir (index + 2<sup>2</sup>), fir (index + 3<sup>2</sup>), etc. Clustering kam karta hai lekin 'Secondary Clustering' ho sakti hai.</li>
+                                        <li><strong>Double Hashing:</strong> Ek aur hash function use karke step size decide karte hain agla slot dhoondhne ke liye. Yeh clustering ko kaafi had tak avoid karta hai.</li>
+                                    </ul>
+                                </li>
+                                 <li>Ismein table ke full hone ka dhyaan rakhna padta hai (Load Factor). Deletion thoda tricky ho sakta hai (placeholder use karna padta hai).</li>
+                            </ul>
+                            <!-- SVG for Open Addressing -->
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+             <!-- Q&A 5: Load Factor & Rehashing -->
+            <div class="qa-item">
+                <button class="question">Load Factor aur Rehashing kya hai?</button>
+                <div class="answer">
+                    <p>
+                        <strong>Load Factor (α):</strong> Yeh hash table mein kitne items hain (n) aur table mein kitne slots hain (m) ka ratio hota hai: `α = n / m`.
+                    </p>
+                    <ul>
+                        <li>Yeh batata hai ki table kitna bhara hua hai.</li>
+                        <li>Separate Chaining mein Load Factor > 1 ho sakta hai (kyunki har slot pe multiple items aa sakte hain). Average list length α ke barabar hoti hai.</li>
+                        <li>Open Addressing mein Load Factor hamesha ≤ 1 hota hai. Jaise jaise Load Factor 1 ke kareeb jaata hai, performance (insertion/search time) kaafi degrade ho jaati hai kyunki khali slot dhoondhna mushkil ho jaata hai.</li>
+                    </ul>
+                    <p>
+                        <strong>Rehashing:</strong> Jab Load Factor ek certain threshold (e.g., 0.7 ya 0.75 in open addressing, ya maybe 1.0 or higher in chaining) ko cross kar jaata hai, toh collisions badh jaate hain aur performance kharab hone lagti hai. Isse bachne ke liye 'Rehashing' ki jaati hai:
+                    </p>
+                    <ol>
+                        <li>Ek naya, bada hash table banaya jaata hai (aksar size double kar dete hain).</li>
+                        <li>Purane table ke saare Key-Value pairs ko ek-ek karke uthaya jaata hai.</li>
+                        <li>Unka hash *naye* table ke size ke hisab se dobara calculate kiya jaata hai.</li>
+                        <li>Unhe naye table mein unki nayi position pe insert kiya jaata hai.</li>
+                        <li>Purana table discard kar diya jaata hai.</li>
+                    </ol>
+                    <p>Rehashing ek costly operation (O(n)) hai, lekin yeh long run mein average performance (O(1)) maintain karne ke liye zaroori hai.</p>
+                </div>
+            </div>
+
+             <!-- Q&A 6: Python Dictionary Implementation -->
+            <div class="qa-item">
+                <button class="question">Python mein Dictionary (`dict`) kaise kaam karti hai?</button>
+                <div class="answer">
+                    <p>
+                        Python ki built-in `dict` hash table ka hi ek highly optimized implementation hai.
+                    </p>
+                    <ul>
+                        <li>Yeh Key-Value pairs store karti hai.</li>
+                        <li>Keys immutable (unchangeable) type ki honi chahiye (jaise numbers, strings, tuples containing immutable types) taaki unka consistent hash value nikala ja sake. Lists ya dictionaries ko key nahi bana sakte.</li>
+                        <li>Internally, yeh Open Addressing (with a sophisticated probing strategy) aur Rehashing ka use karti hai collisions handle karne aur performance maintain karne ke liye.</li>
+                        <li>Average case mein insertion, deletion, aur lookup (search by key) O(1) time lete hain. Worst case (jab bahut collisions ho ya rehashing ho raha ho) O(n) ho sakta hai, lekin yeh rare hota hai.</li>
+                    </ul>
+                     <pre><code class="language-python">
+# Dictionary banana
+student_marks = {"Alice": 85, "Bob": 92, "Charlie": 78}
+print(student_marks)
+
+# Value access karna (Lookup - O(1) avg)
+print("Bob's marks:", student_marks["Bob"]) # Output: 92
+
+# Naya item add karna (Insertion - O(1) avg)
+student_marks["David"] = 88
+print("After adding David:", student_marks)
+
+# Item update karna (O(1) avg)
+student_marks["Alice"] = 87
+print("After updating Alice:", student_marks)
+
+# Item delete karna (Deletion - O(1) avg)
+del student_marks["Charlie"]
+print("After deleting Charlie:", student_marks)
+
+# Check karna ki key मौजूद hai ya nahi
+if "Bob" in student_marks:
+    print("Bob is in the dictionary.")
+
+# Iterate karna (keys, values, or items)
+print("Students:", list(student_marks.keys()))
+print("Marks:", list(student_marks.values()))
+print("Items:", list(student_marks.items()))
+                     </code></pre>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="queues.html" class="prev-link">Previous: Queues</a>
+            <a href="trees.html" class="next-link">Next: Trees</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+    <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

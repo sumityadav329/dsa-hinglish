@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time/Space Complexity - DSA Hinglish Mein</title>
+    <!-- Prism JS Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles (Copy from previous examples if needed) -->
+    <style>
+        /* Add SVG styles here if you use SVGs */
+        .visualization-container { margin: 20px 0; text-align: center; }
+        .visualization-container svg { border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9; border-radius: var(--border-radius); max-width: 100%; height: auto; }
+        /* Add more specific SVG element styles if needed */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⏱️ Time/Space Complexity ka Gyan ⏱️</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: Time Complexity -->
+            <div class="qa-item">
+                <button class="question">Algorithm ki Time Complexity kya hoti hai?</button>
+                <div class="answer">
+                    <p>
+                        Time Complexity yeh batati hai ki ek algorithm input size badhne par kitna zyada time lega run hone mein. Yeh actual seconds mein time nahi batati, balki time ka 'growth rate' batati hai input ke respect mein. Hum isko 'Big O Notation' ka use karke express karte hain.
+                    </p>
+                    <p>
+                        <strong>Example:</strong> Agar aapko ek list mein koi number search karna hai aur aap ek-ek karke har number ko check karte hain (Linear Search), toh worst case mein aapko poori list (n elements) check karni pad sakti hai. Iski Time Complexity O(n) hogi (Order of n). Agar list ka size double hoga, toh worst-case time bhi lagbhag double ho jayega.
+                    </p>
+                    <p>Kyun important hai? Kyunki yeh humein alag-alag algorithms ko compare karne mein madad karti hai ki kaunsa bade inputs ke liye zyada efficient (tez) hoga.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Big O Notation -->
+            <div class="qa-item">
+                <button class="question">Big O Notation kya hai? Common examples do.</button>
+                <div class="answer">
+                    <p>
+                        Big O Notation ek mathematical tareeka hai Time ya Space Complexity ke 'Upper Bound' (worst-case scenario) ko describe karne ka. Yeh batata hai ki algorithm ka performance input size (n) badhne par kaise grow karega, constant factors aur lower-order terms ko ignore karte hue.
+                    </p>
+                    <p><strong>Common Big O Notations (Fastest se Slowest):</strong></p>
+                    <ul>
+                        <li><strong>O(1) - Constant Time:</strong> Run time input size pe depend nahi karta. (e.g., Array mein index se element access karna, Stack mein push/pop). Bahut accha!</li>
+                        <li><strong>O(log n) - Logarithmic Time:</strong> Run time input size ke logarithm ke hisab se badhta hai. Har step mein problem ka size kam hota jaata hai. (e.g., Binary Search). Bahut accha!</li>
+                        <li><strong>O(n) - Linear Time:</strong> Run time input size ke directly proportional hota hai. (e.g., Linear Search, Array/List ko traverse karna). Theek hai.</li>
+                        <li><strong>O(n log n) - Linearithmic Time:</strong> Efficient sorting algorithms ismein aate hain. (e.g., Merge Sort, Quick Sort average case). Accha hai.</li>
+                        <li><strong>O(n<sup>2</sup>) - Quadratic Time:</strong> Run time input size ke square ke hisab se badhta hai. Nested loops mein aksar dikhta hai. (e.g., Bubble Sort, Selection Sort, simple nested loops). Chhote inputs ke liye theek, bade ke liye slow.</li>
+                        <li><strong>O(2<sup>n</sup>) - Exponential Time:</strong> Run time har naye element ke saath double ho jaata hai. Bahut slow, sirf bahut chhote inputs ke liye kaam karta hai. (e.g., Recursive Fibonacci ka naive solution).</li>
+                        <li><strong>O(n!) - Factorial Time:</strong> Aur bhi zyada slow. (e.g., Travelling Salesman Problem ka brute-force solution).</li>
+                    </ul>
+                     <!-- Simple visualization idea: Graph showing growth curves -->
+                     <!-- <img src="images/big_o_curves.png" alt="Big O Growth Curves" class="concept-image"> -->
+                </div>
+            </div>
+
+             <!-- Q&A 3: Space Complexity -->
+            <div class="qa-item">
+                <button class="question">Space Complexity kya hoti hai?</button>
+                <div class="answer">
+                    <p>
+                       Space Complexity yeh batati hai ki ek algorithm input size badhne par kitni extra memory (RAM) use karega. Ismein input ko store karne ki space ke alawa, algorithm jo temporary variables, data structures, ya function call stack use karta hai, woh sab count hota hai.
+                    </p>
+                     <p>
+                        Isko bhi Big O Notation mein express karte hain.
+                    </p>
+                    <p><strong>Example:</strong></p>
+                     <ul>
+                        <li>Agar aap ek function banate hain jo sirf kuch simple variables (int, float) use karta hai, chahe input kitna bhi bada ho, toh Space Complexity O(1) (Constant Space) hogi.</li>
+                         <li>Agar aap input array ki size ka ek naya array banate hain, toh Space Complexity O(n) (Linear Space) hogi.</li>
+                         <li>Recursive functions jo 'n' depth tak jaate hain, unki Space Complexity call stack ki wajah se O(n) ho sakti hai.</li>
+                     </ul>
+                     <p>Time ke saath-saath Space bhi important hai, khaaskar jab memory limited ho.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 4: Best, Average, Worst Case -->
+            <div class="qa-item">
+                <button class="question">Best Case, Average Case, aur Worst Case Complexity kya hoti hai?</button>
+                <div class="answer">
+                    <p>Ek hi algorithm alag-alag inputs ke liye alag-alag time le sakta hai. Isliye hum complexity ko teen scenarios mein dekhte hain:</p>
+                    <ul>
+                        <li><strong>Best Case (Big Omega - Ω):</strong> Algorithm ka minimum possible run time. Yeh tab hota hai jab input sabse favorable ho. (e.g., Linear search mein element pehli position pe hi mil jaye - O(1)).</li>
+                        <li><strong>Average Case (Big Theta - Θ):</strong> Algorithm ka expected run time 'typical' ya random input ke liye. Isko calculate karna thoda mushkil ho sakta hai. (e.g., Quick Sort ka average case O(n log n)).</li>
+                        <li><strong>Worst Case (Big O - O):</strong> Algorithm ka maximum possible run time. Yeh tab hota hai jab input sabse unfavorable ho. Hum aksar Worst Case pe focus karte hain kyunki yeh performance ki guarantee deta hai. (e.g., Linear search mein element aakhir mein mile ya na mile - O(n); Quick Sort ka worst case O(n<sup>2</sup>)).</li>
+                    </ul>
+                    <p>Interview mein aksar Big O (Worst Case) poocha jaata hai, lekin baaki cases ki understanding bhi zaroori hai.</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <!-- No Previous Link on the first topic -->
+             <span class="nav-placeholder"></span> <!-- Empty span to maintain space -->
+
+            <!-- Next Link -->
+            <a href="arrays.html" class="next-link">Next: Arrays</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div> <!-- .container ends -->
+
+    <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

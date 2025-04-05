@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heaps ka Dher - DSA Hinglish Mein</title>
+    <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* Add specific SVG styles if needed for heap diagrams */
+        .svg-node circle { stroke: #ff8c00; stroke-width: 2; fill: #fff0e0; /* Light orange */ }
+        .svg-node text { font-family: var(--body-font); font-size: 14px; fill: #000; text-anchor: middle; dominant-baseline: middle; }
+        .svg-edge { stroke: #6c757d; stroke-width: 1.5; }
+     </style>
+</head>
+<body>
+     <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+         <header>
+            <h1>🔥 Heaps ka Dher 🔥</h1> <!-- Using fire emoji for heap -->
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is a Heap? -->
+            <div class="qa-item">
+                <button class="question">Heap Data Structure kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Heap ek special Tree-based data structure hai jo kuch khaas properties follow karta hai. Yeh dekhne mein Binary Tree jaisa lagta hai, lekin iski apni alag conditions hoti hain:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Shape Property (Complete Binary Tree):</strong> Heap hamesha ek 'Complete Binary Tree' hota hai. Iska matlab hai ki tree ke sabhi levels poori tarah bhare hote hain, siwaye shayad aakhri level ke, aur aakhri level mein nodes jitna ho sake left ki taraf hote hain. Is property ki wajah se Heap ko efficiently ek Array mein store kiya ja sakta hai.
+                        </li>
+                        <li>
+                            <strong>Heap Property (Order Property):</strong> Nodes ki values ek specific order follow karti hain parent aur child ke beech mein. Iske do types hote hain:
+                            <ul>
+                                <li><strong>Max-Heap:</strong> Har node ki value uske children ki value se *badi* ya barabar (>=) hoti hai. Iska matlab sabse badi value hamesha tree ke *Root* pe hoti hai.</li>
+                                <li><strong>Min-Heap:</strong> Har node ki value uske children ki value se *chhoti* ya barabar (<=) hoti hai. Iska matlab sabse chhoti value hamesha tree ke *Root* pe hoti hai.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                     <!-- SVG for Max Heap example -->
+                    <div class="visualization-container">
+                         <svg width="300" height="250" viewBox="0 0 300 250">
+                            <title>Max-Heap Example</title>
+                             <!-- Edges -->
+                             <line class="svg-edge" x1="150" y1="40" x2="80" y2="100"/>
+                             <line class="svg-edge" x1="150" y1="40" x2="220" y2="100"/>
+                             <line class="svg-edge" x1="80" y1="120" x2="40" y2="180"/>
+                             <line class="svg-edge" x1="80" y1="120" x2="120" y2="180"/>
+                             <line class="svg-edge" x1="220" y1="120" x2="180" y2="180"/>
+                            <!-- Nodes -->
+                            <g class="svg-node"><circle cx="150" cy="30" r="20"/><text x="150" y="30">100</text><text x="150" y="5" font-size="10px">(Root)</text></g>
+                            <g class="svg-node"><circle cx="80" cy="110" r="20"/><text x="80" y="110">70</text></g>
+                            <g class="svg-node"><circle cx="220" cy="110" r="20"/><text x="220" y="110">80</text></g>
+                            <g class="svg-node"><circle cx="40" cy="190" r="20"/><text x="40" y="190">30</text></g>
+                            <g class="svg-node"><circle cx="120" cy="190" r="20"/><text x="120" y="190">50</text></g>
+                            <g class="svg-node"><circle cx="180" cy="190" r="20"/><text x="180" y="190">60</text></g>
+                            <text x="150" y="240" class="svg-label">Har Parent >= Children</text>
+                         </svg>
+                     </div>
+                    <p>Heap BST (Binary Search Tree) se alag hai. BST mein Left < Root < Right ka order hota hai, jabki Heap mein sirf Parent-Child ka order (Min ya Max) matter karta hai, left/right child ke beech koi specific order nahi hota.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Array Representation -->
+            <div class="qa-item">
+                <button class="question">Heap ko Array mein kaise represent karte hain?</button>
+                <div class="answer">
+                    <p>
+                        Kyunki Heap ek Complete Binary Tree hota hai, use level-by-level ek Array mein store karna bahut efficient hai, bina kisi pointer ke. Agar Array ka index 0 se start hota hai:
+                    </p>
+                    <ul>
+                        <li>Root element index `0` pe hota hai.</li>
+                        <li>Kisi bhi node `i` ke liye:
+                            <ul>
+                                <li>Uska Left Child index `2*i + 1` pe hota hai (agar woh index array bounds mein hai).</li>
+                                <li>Uska Right Child index `2*i + 2` pe hota hai (agar woh index array bounds mein hai).</li>
+                                <li>Uska Parent index `floor((i - 1) / 2)` pe hota hai (agar `i > 0`).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                     <p>Example: Upar wala Max-Heap Array mein aisa dikhega: `[100, 70, 80, 30, 50, 60]`</p>
+                     <p>Yeh representation space-efficient hai aur parent/child access O(1) time mein ho jaata hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Heap Operations -->
+             <div class="qa-item">
+                <button class="question">Heap ke main operations kya hain (Heapify, Insert, Extract)?</button>
+                <div class="answer">
+                     <p>Heap property ko maintain karte hue elements add/remove karne ke liye kuch core operations hote hain (Max-Heap ke context mein):</p>
+                     <ol>
+                         <li>
+                             <strong>Heapify (or `siftDown`, `bubbleDown`):</strong>
+                             <ul>
+                                 <li>Yeh function tab use hota hai jab ek node shayad Heap property violate kar raha ho (apne children se chhota ho), lekin uske dono subtrees (left aur right) already heaps hon.</li>
+                                 <li>Yeh us node ko uske *bade* child ke saath swap karta hai.</li>
+                                 <li>Fir yeh process recursively us child ke subtree mein repeat hota hai jiske saath swap hua tha, jab tak ki node apni sahi jagah pe na aa jaye (ya leaf na ban jaye).</li>
+                                 <li>Complexity: O(log n) - Tree ki height ke proportional.</li>
+                                 <li>Yeh `extractMax` aur `buildHeap` mein use hota hai.</li>
+                             </ul>
+                             <!-- Heapify code snippet (Conceptual) included in Heap Sort example -->
+                         </li>
+                          <li>
+                             <strong>Insert (or `bubbleUp`, `siftUp`):</strong>
+                             <ul>
+                                 <li>Naye element ko heap ke end mein (array representation mein aakhri available slot pe) add karo (taaki Complete BT property maintain rahe).</li>
+                                 <li>Ab yeh naya element shayad Heap property (Max-Heap) violate kar raha ho (apne parent se bada ho).</li>
+                                 <li>Naye element ko uske parent se compare karo. Agar element parent se bada hai, toh dono ko swap karo.</li>
+                                 <li>Yeh swapping process upar ki taraf (parent ke parent se compare) repeat karte jao jab tak element apni sahi jagah na pahunch jaye (ya root na ban jaye, ya parent se chhota na ho).</li>
+                                 <li>Complexity: O(log n).</li>
+                             </ul>
+                         </li>
+                          <li>
+                              <strong>Extract-Max (for Max-Heap) / Extract-Min (for Min-Heap):</strong>
+                             <ul>
+                                 <li>Heap se sabse bada (ya chhota) element nikalna hai, jo hamesha Root pe hota hai.</li>
+                                 <li>Root ki value ko store kar lo (return karne ke liye).</li>
+                                 <li>Heap ke *aakhri* element ko uthakar Root ki jagah rakh do.</li>
+                                 <li>Heap ka size 1 se kam kar do.</li>
+                                 <li>Ab naya Root shayad Heap property violate kar raha ho. Isliye naye Root pe **Heapify** operation call karo taaki woh neeche apni sahi jagah pe chala jaye aur heap property restore ho.</li>
+                                  <li>Complexity: O(log n) (due to Heapify).</li>
+                             </ul>
+                         </li>
+                           <li>
+                              <strong>Peek / Get-Max / Get-Min:</strong>
+                             <ul>
+                                 <li>Sirf Root element ki value dekhni hai, use remove nahi karna.</li>
+                                 <li>Complexity: O(1).</li>
+                             </ul>
+                         </li>
+                           <li>
+                              <strong>Build Heap:</strong>
+                             <ul>
+                                 <li>Ek unordered array se Heap banana.</li>
+                                 <li>Ek tareeka hai ki ek khali heap lo aur saare elements ko ek-ek karke `Insert` karo (Complexity: O(n log n)).</li>
+                                 <li>Ek zyada efficient tareeka (Floyd's algorithm): Array ke last non-leaf node se shuru karo aur pehle node tak har node pe `Heapify` call karo. (Complexity: O(n)).</li>
+                             </ul>
+                         </li>
+                     </ol>
+                </div>
+            </div>
+
+             <!-- Q&A 4: Python heapq -->
+            <div class="qa-item">
+                <button class="question">Python mein `heapq` module kya hai?</button>
+                <div class="answer">
+                    <p>
+                        Python ka `heapq` module **Min-Heap** ko efficiently implement karne ke liye functions provide karta hai. Yeh directly List objects par kaam karta hai.
+                    </p>
+                    <p>Common functions:</p>
+                    <ul>
+                        <li><strong>`heapq.heappush(heap, item)`:</strong> `item` ko `heap` list mein push karta hai, Min-Heap property maintain karte hue (O(log n)).</li>
+                        <li><strong>`heapq.heappop(heap)`:</strong> `heap` list se sabse *chhota* item remove karta hai aur return karta hai (O(log n)). Agar heap khali hai toh `IndexError` aata hai.</li>
+                        <li><strong>`heap[0]`:</strong> Heap ke sabse chhote element ko peek karne ka tareeka (O(1)).</li>
+                        <li><strong>`heapq.heapify(x)`:</strong> List `x` ko *in-place* Min-Heap mein convert karta hai (O(n)).</li>
+                        <li><strong>`heapq.heappushpop(heap, item)`:</strong> Pehle `item` push karta hai, fir smallest item pop karta hai. `heappush` ke baad `heappop` karne se thoda zyada efficient hai.</li>
+                        <li><strong>`heapq.heapreplace(heap, item)`:</strong> Pehle smallest item pop karta hai, fir naya `item` push karta hai. Agar aapko pop ki hui value nahi chahiye toh `heappushpop` se zyada efficient ho sakta hai.</li>
+                        <li><strong>`heapq.nsmallest(n, iterable)` / `nlargest(n, iterable)`:</strong> Kisi bhi iterable se `n` sabse chhote/bade elements nikalta hai (O(k log n) where k is size of iterable).</li>
+                    </ul>
+                    <p><strong>Max-Heap kaise banaye?</strong> `heapq` directly Max-Heap support nahi karta. Common trick hai ki values ko negative karke Min-Heap mein store karo. Jab extract karo, toh value ko fir se negate kar do.</p>
+                     <pre><code class="language-python">
+import heapq
+
+# Min-Heap Example
+min_heap = []
+heapq.heappush(min_heap, 5)
+heapq.heappush(min_heap, 1)
+heapq.heappush(min_heap, 9)
+heapq.heappush(min_heap, 3)
+
+print("Min-Heap:", min_heap) # Output: [1, 3, 9, 5] (Array representation)
+print("Smallest element (Peek):", min_heap[0]) # Output: 1
+
+smallest = heapq.heappop(min_heap)
+print("Popped smallest:", smallest) # Output: 1
+print("Heap after pop:", min_heap) # Output: [3, 5, 9]
+
+# Build heap from a list
+my_list = [4, 10, 3, 5, 1]
+heapq.heapify(my_list)
+print("Heapified list (Min-Heap):", my_list) # Output: [1, 4, 3, 5, 10]
+
+# Max-Heap Example (using negative values)
+max_heap = []
+data = [5, 1, 9, 3]
+for item in data:
+    heapq.heappush(max_heap, -item) # Store negative
+
+print("Max-Heap (negated):", max_heap) # Output: [-9, -3, -5, -1]
+largest = -heapq.heappop(max_heap) # Pop and negate back
+print("Popped largest:", largest) # Output: 9
+print("Max-Heap (negated) after pop:", max_heap) # Output: [-5, -3, -1]
+                    </code></pre>
+                </div>
+            </div>
+
+             <!-- Q&A 5: Applications -->
+            <div class="qa-item">
+                <button class="question">Heaps kahan use hote hain?</button>
+                <div class="answer">
+                    <p>Heaps ke kai important applications hain:</p>
+                     <ul>
+                        <li><strong>Priority Queue:</strong> Heap Priority Queue implement karne ka sabse natural tareeka hai. Elements ko unki priority ke hisab se efficiently add (enqueue) aur highest/lowest priority wale ko remove (dequeue) kiya ja sakta hai (O(log n)). Operating system scheduling, Dijkstra's/Prim's algorithm mein use hota hai.</li>
+                         <li><strong>Heap Sort:</strong> Ek efficient (O(n log n) time, O(1) space) sorting algorithm.</li>
+                         <li><strong>Finding Kth Smallest/Largest Element:</strong> Ek list mein se Kth smallest ya largest element efficiently nikalne ke liye heap use kar sakte hain (O(n + k log n) ya O(k + (n-k)log k)).</li>
+                         <li><strong>Median Finding in a Stream:</strong> Do heaps (ek Min-Heap aur ek Max-Heap) use karke data stream mein running median efficiently calculate kiya ja sakta hai.</li>
+                         <li>Any situation jahan aapko baar-baar collection mein se minimum ya maximum element dhoondhna/nikalna ho.</li>
+                     </ul>
+                </div>
+            </div>
+
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="recursion.html" class="prev-link">Previous: Recursion</a>
+            <!-- Next link for Graphs (assuming) -->
+            <a href="graphs.html" class="next-link">Next: Graphs</a> <!-- Change graphs.html if next topic is different -->
+        </nav>
+        <!-- End Page Navigation Section -->
+
+         <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+      <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

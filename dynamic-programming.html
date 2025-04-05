@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming ke Patterns - DSA Hinglish Mein</title>
+     <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* Add specific SVG styles if needed */
+     </style>
+</head>
+<body>
+    <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+         <header>
+            <h1>🧠 Dynamic Programming (DP) ke Patterns 🧠</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+             <h2>Common Interview Questions & Concepts:</h2>
+
+             <!-- Q&A 1: What is DP? -->
+            <div class="qa-item">
+                <button class="question">Dynamic Programming (DP) kya hai?</button>
+                <div class="answer">
+                    <p>
+                       Dynamic Programming ek powerful algorithmic technique hai jo complex problems ko solve karne ke liye use hoti hai. Yeh unn problems pe kaam karti hai jinmein do khaas properties hoti hain:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Overlapping Subproblems:</strong> Problem ko aise chhote subproblems mein toda ja sakta hai jo baar-baar repeat hote hain. Agar hum simple recursion use karein, toh yeh same subproblems ko kai baar solve karega, jo inefficient hota hai (jaise recursive Fibonacci mein dekha tha).
+                        </li>
+                        <li>
+                            <strong>Optimal Substructure:</strong> Badi problem ka optimal solution uski subproblems ke optimal solutions se banaya ja sakta hai. Matlab agar hum subproblems ko optimally solve kar lein, toh unke results ko combine karke original problem ka optimal solution mil jayega.
+                        </li>
+                    </ol>
+                    <p>
+                        DP ka core idea hai ki hum har subproblem ko sirf *ek baar* solve karte hain aur uske result ko store kar lete hain (ek table ya cache mein). Jab bhi woh subproblem dobara aati hai, hum use dobara solve karne ke bajaye stored result ko use kar lete hain. Isse redundant calculations avoid hoti hain aur performance dramatically improve hoti hai.
+                    </p>
+                    <p>DP optimization problems (jaise shortest path, longest common subsequence, knapsack) ko solve karne mein bahut use hoti hai.</p>
+                </div>
+            </div>
+
+             <!-- Q&A 2: Memoization vs Tabulation -->
+            <div class="qa-item">
+                <button class="question">DP mein Memoization (Top-Down) aur Tabulation (Bottom-Up) kya hai?</button>
+                <div class="answer">
+                    <p>Dynamic Programming ko implement karne ke do main approaches hain:</p>
+                    <ol>
+                        <li>
+                            <strong>Memoization (Top-Down DP):</strong>
+                            <ul>
+                                <li>Yeh recursive approach jaisa hi hai. Hum normal recursive function likhte hain.</li>
+                                <li>Lekin, function ke shuru mein hum check karte hain ki kya is subproblem (current state ke liye) ka result pehle se calculate karke store kiya gaya hai (ek lookup table/cache/memo mein, jaise dictionary ya array).</li>
+                                <li>Agar result stored hai, toh use return kar do.</li>
+                                <li>Agar nahi, toh normal recursive calculation karo.</li>
+                                <li>Calculation ke baad, result ko return karne se *pehle* use lookup table mein store kar lo.</li>
+                                <li>Yeh natural lagta hai agar aap recursive soch sakte hain. Sirf zaroori subproblems hi solve hoti hain. Function call overhead ho sakta hai.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Tabulation (Bottom-Up DP):</strong>
+                             <ul>
+                                <li>Yeh iterative approach hai. Ismein recursion use nahi hota.</li>
+                                <li>Hum ek table (aksar 1D ya 2D array) banate hain subproblems ke results ko store karne ke liye.</li>
+                                <li>Hum table ko *sabse chhote* (base case wale) subproblems ke solutions se bharna shuru karte hain.</li>
+                                <li>Fir hum iteratively bade subproblems ko solve karte hain, *pehle se calculate kiye gaye chhote subproblems ke results* ka use karke.</li>
+                                <li>Hum table ko ek specific order mein bharte jaate hain jab tak hum original problem ke corresponding entry tak na pahunch jayein.</li>
+                                <li>Ismein function call overhead nahi hota. Aksar thoda zyada space efficient ho sakta hai (kabhi kabhi poora table store karne ki zaroorat nahi padti). Saare subproblems calculate hote hain, bhale hi unki zaroorat na ho final solution ke liye.</li>
+                             </ul>
+                        </li>
+                    </ol>
+                    <p>Dono approaches same time complexity deti hain (agar sabhi subproblems solve karne padein), lekin space complexity aur implementation style alag ho sakta hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Fibonacci Example -->
+            <div class="qa-item">
+                <button class="question">Fibonacci ko DP se kaise optimize karte hain (Memoization & Tabulation)?</button>
+                <div class="answer">
+                    <p>Simple recursive Fibonacci O(2<sup>n</sup>) tha. DP se yeh O(n) time mein ho jaata hai.</p>
+
+                    <p><strong>1. Using Memoization (Top-Down):</strong></p>
+                     <pre><code class="language-python">
+# Memoization dictionary to store results
+memo = {}
+
+def fib_memo(n):
+    # 1. Check if result is already computed
+    if n in memo:
+        return memo[n]
+
+    # Base Cases
+    if n <= 0:
+        result = 0
+    elif n == 1:
+        result = 1
+    # Recursive Step (if not in memo)
+    else:
+        result = fib_memo(n - 1) + fib_memo(n - 2)
+
+    # 2. Store the result before returning
+    memo[n] = result
+    return result
+
+# Example
+num = 10
+print(f"Fibonacci({num}) using Memoization: {fib_memo(num)}") # Output: 55
+# print(memo) # You can see the stored results
+                    </code></pre>
+                    <p>Ismein `fib_memo(k)` har `k` ke liye sirf ek baar calculate hoga.</p>
+
+                    <p><strong>2. Using Tabulation (Bottom-Up):</strong></p>
+                     <pre><code class="language-python">
+def fib_tabulation(n):
+    if n <= 0: return 0
+    if n == 1: return 1
+
+    # Create a table (list) to store results up to n
+    # Size n+1 because we need indices from 0 to n
+    dp_table = [0] * (n + 1)
+
+    # Initialize base cases
+    dp_table[0] = 0
+    dp_table[1] = 1
+
+    # Fill the table iteratively from 2 up to n
+    for i in range(2, n + 1):
+        dp_table[i] = dp_table[i - 1] + dp_table[i - 2]
+
+    # The final answer is in dp_table[n]
+    return dp_table[n]
+
+# Example
+num = 10
+print(f"Fibonacci({num}) using Tabulation: {fib_tabulation(num)}") # Output: 55
+
+# Space Optimization for Tabulation:
+# Notice that to calculate fib(i), we only need fib(i-1) and fib(i-2).
+# We don't need the entire table. We can just keep track of the previous two values.
+
+def fib_tabulation_optimized(n):
+    if n <= 0: return 0
+    if n == 1: return 1
+
+    prev2 = 0 # Represents fib(i-2)
+    prev1 = 1 # Represents fib(i-1)
+
+    for _ in range(2, n + 1):
+        current = prev1 + prev2
+        # Update previous values for next iteration
+        prev2 = prev1
+        prev1 = current
+
+    return prev1 # The final result is stored in prev1
+
+print(f"Fibonacci({num}) using Optimized Tabulation: {fib_tabulation_optimized(num)}") # Output: 55
+                    </code></pre>
+                     <p>Optimized Tabulation ki Time Complexity O(n) hai aur Space Complexity O(1) hai, jo ki bahut efficient hai.</p>
+                </div>
+            </div>
+
+             <!-- Q&A 4: When to think DP? -->
+            <div class="qa-item">
+                <button class="question">Kab sochna chahiye ki problem DP se solve ho sakti hai?</button>
+                <div class="answer">
+                     <p>Agar aapko koi optimization problem (jaise find minimum cost, maximum profit, total number of ways) ya counting problem dikhe, toh DP ek potential solution ho sakta hai. Kuch signs:</p>
+                     <ul>
+                         <li><strong>Problem ko chhote, similar subproblems mein toda ja sakta hai:</strong> Kya `problem(n)` ka solution `problem(n-1)`, `problem(n-2)`, ya `problem(n/2)` etc. ke solutions pe depend karta hai?</li>
+                         <li><strong>Recursive solution soch pa rahe ho, lekin woh bahut slow lag raha hai:</strong> Agar aapka recursive solution same subproblems ko baar baar calculate kar raha hai (aap recursion tree banakar dekh sakte hain), toh DP (Memoization ya Tabulation) use karke use optimize kiya ja sakta hai.</li>
+                         <li><strong>Optimal Substructure Property dikh rahi hai:</strong> Kya subproblems ke optimal solutions milakar original problem ka optimal solution banaya ja sakta hai?</li>
+                         <li><strong>Problem mein choices involve hain:</strong> Aksar DP problems mein har step pe kuch choices leni hoti hain (e.g., Knapsack mein item ko include karein ya exclude karein) aur humein optimal choice sequence find karna hota hai.</li>
+                         <li>Keywords jaise "minimum cost", "maximum profit", "longest subsequence", "shortest path", "number of ways" aksar DP ki taraf ishara karte hain.</li>
+                     </ul>
+                     <p>DP mein state define karna (subproblem kya hai?) aur recurrence relation (badi problem ko chhoti problem se kaise relate karein?) find karna sabse important steps hote hain.</p>
+                </div>
+            </div>
+
+              <!-- Q&A 5: Common DP Problems -->
+            <div class="qa-item">
+                <button class="question">Kuch common DP problems ke naam batao.</button>
+                <div class="answer">
+                    <p>Interviews mein kuch classic DP problems baar baar aati hain:</p>
+                     <ul>
+                        <li><strong>Fibonacci Sequence</strong> (Optimized)</li>
+                        <li><strong>Climbing Stairs:</strong> n stairs chadhne ke kitne tareeke hain agar aap 1 ya 2 step le sakte hain?</li>
+                         <li><strong>Longest Common Subsequence (LCS):</strong> Do strings mein sabse lambi common subsequence ki length kya hai?</li>
+                         <li><strong>Longest Increasing Subsequence (LIS):</strong> Ek array mein sabse lambi increasing subsequence ki length kya hai?</li>
+                         <li><strong>Edit Distance (Levenshtein Distance):</strong> Ek string ko dusre mein convert karne ke liye minimum kitne operations (insert, delete, replace) lagenge?</li>
+                         <li><strong>Knapsack Problem (0/1 and Unbounded):</strong> Given items with weights and values, select items to maximize total value within a weight capacity.</li>
+                         <li><strong>Coin Change Problem:</strong> Given coin denominations, find the minimum number of coins needed to make a given amount, or find the total number of ways to make the amount.</li>
+                         <li><strong>Matrix Chain Multiplication:</strong> Matrices ko multiply karne ka sabse efficient order (minimum scalar multiplications) kya hai?</li>
+                         <li><strong>Rod Cutting Problem:</strong> Ek rod ko pieces mein kaat kar maximum profit kaise kamayein?</li>
+                         <li><strong>Minimum Path Sum (in a grid):</strong> Grid mein top-left se bottom-right tak jaane ka minimum cost path kya hai?</li>
+                     </ul>
+                     <p>In problems ko practice karne se DP ke patterns samajhne mein madad milti hai.</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="graphs.html" class="prev-link">Previous: Graphs</a>
+            <a href="greedy-algorithms.html" class="next-link">Next: Greedy Algorithms</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+     <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

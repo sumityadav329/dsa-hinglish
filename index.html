@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hi"> <!-- Language ko Hindi specify kar dete hain -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Hinglish Mein - Zero se Hero</title>
+    <!-- Prism JS Theme (Okaidia) - Syntax Highlighting ke liye -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- Hamari Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Additional styles for category boxes -->
+    <style>
+        .topic-categories {
+            display: grid; /* Use Grid for layout */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+            gap: 25px; /* Space between boxes */
+            margin-top: 20px;
+        }
+        .topic-category {
+            background: #fff;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border-left: 5px solid var(--primary-color); /* Accent border */
+        }
+        .topic-category h3 {
+            font-family: var(--heading-font);
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            display: flex; /* Align icon and text */
+            align-items: center;
+        }
+         .topic-category h3 .level-icon { /* Style for icons */
+            margin-right: 10px;
+            font-size: 1.2em;
+         }
+
+        .topic-category ul {
+            list-style: none;
+            padding: 0;
+        }
+        .topic-category ul li {
+            margin-bottom: 10px;
+        }
+        .topic-category ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 400;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+        .topic-category ul li a:hover {
+            color: var(--primary-color);
+            background-color: var(--background-color);
+            padding-left: 15px;
+        }
+         .topic-category ul li a .topic-icon { /* Style for icons next to topic */
+            margin-right: 8px;
+            display: inline-block; /* Prevents icon from causing line break */
+            width: 20px; /* Fixed width for alignment */
+            text-align: center;
+         }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🚀 DSA Seekho Hinglish Mein! 🚀</h1>
+            <p class="intro">Aapka swagat hai is DSA learning journey mein - bilkul basics se lekar advanced concepts tak, sab aasan Hinglish mein!</p>
+        </header>
+
+        <!-- Replaced old navigation with categories -->
+        <div class="topic-categories">
+
+            <!-- Category 1: Basics -->
+            <div class="topic-category">
+                <h3><span class="level-icon">👶</span> Basics (Level 1)</h3>
+                <ul>
+                    <li><a href="complexity.html"><span class="topic-icon">⏱️</span>Time/Space Complexity</a></li>
+                    <li><a href="arrays.html"><span class="topic-icon">✨</span>Arrays</a></li>
+                    <li><a href="linked-lists.html"><span class="topic-icon">🔗</span>Linked Lists</a></li>
+                    <li><a href="stacks.html"><span class="topic-icon">📚</span>Stacks</a></li>
+                    <li><a href="queues.html"><span class="topic-icon">🚶</span>Queues</a></li>
+                </ul>
+            </div>
+
+            <!-- Category 2: Intermediate -->
+            <div class="topic-category">
+                 <h3><span class="level-icon">🧑‍💻</span> Intermediate (Level 2)</h3>
+                 <ul>
+                    <li><a href="hashing.html"><span class="topic-icon">🔑</span>Hashing</a></li>
+                    <li><a href="trees.html"><span class="topic-icon">🌳</span>Trees (Intro & BST)</a></li>
+                    <li><a href="searching.html"><span class="topic-icon">🔍</span>Searching Algorithms</a></li>
+                    <li><a href="sorting.html"><span class="topic-icon">📊</span>Sorting Algorithms</a></li>
+                    <li><a href="recursion.html"><span class="topic-icon">🔁</span>Recursion Basics</a></li>
+                    <li><a href="heap.html"><span class="topic-icon">🔥</span>Heaps & Priority Queue</a></li>
+                     <!-- Add more intermediate topics here -->
+                 </ul>
+            </div>
+
+             <!-- Category 3: Advanced (Placeholder) -->
+            <div class="topic-category">
+                 <h3><span class="level-icon">🚀</span> Advanced (Level 3)</h3>
+                 <ul>
+                     <li><a href="graphs.html"><span class="topic-icon">📈</span>Graphs</a></li>
+                     <li><a href="dynamic-programming.html"><span class="topic-icon">🧠</span>Dynamic Programming (DP)</a></li>
+                     <li><a href="greedy-algorithms.html"><span class="topic-icon">💡</span>Greedy Algorithms</a></li>
+                     <li><a href="#"><span class="topic-icon">🌲</span>Advanced Trees (AVL, RBT) (Coming Soon)</a></li>
+                     <li><a href="#"><span class="topic-icon">↩️</span>Backtracking (Coming Soon)</a></li>
+                 </ul>
+            </div>
+
+        </div> <!-- End topic-categories -->
+
+        <main class="home-content" style="margin-top: 30px;"> <!-- Added margin-top -->
+            <h2>Website Kaise Use Karein?</h2>
+            <p>Upar diye gaye sections mein se topic chunein. Topics ko unki difficulty ke hisab se group kiya gaya hai. Har topic ke link pe click karke uske concepts aur interview sawaal dekhein!</p>
+            <p>Code examples ke corner mein 'Copy' button hai jisse aap code aasani se copy kar sakte hain.</p>
+            
+            <pre><code class="language-python">
+# Example code
+def hello_world():
+    print("Hello, World!")
+            </code></pre>
+        </main>
+
+        <footer>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+    </div>
+
+    <!-- Prism JS Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <!-- Hamari Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>

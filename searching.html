@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searching Algorithms - DSA Hinglish Mein</title>
+     <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* Add specific SVG styles if needed */
+     </style>
+</head>
+<body>
+     <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+         <header>
+            <h1>🔍 Searching Algorithms ki Khoj 🔍</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+             <!-- Q&A 1: What is Searching? -->
+            <div class="qa-item">
+                <button class="question">Searching Algorithm kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Searching Algorithm ek tareeka ya process hai jisse hum kisi data structure (jaise Array, List, Tree, Graph) mein ek specific element (ya 'key') ko dhoondhte hain.
+                    </p>
+                    <p>
+                        Goal hota hai yeh pata lagana ki woh element uss structure mein मौजूद hai ya nahi, aur agar hai, toh uski position (index) ya reference kya hai.
+                    </p>
+                    <p>
+                        Alag-alag data structures aur scenarios ke liye alag-alag searching algorithms hote hain, jinki efficiency (time aur space complexity) bhi alag-alag hoti hai.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Linear Search -->
+            <div class="qa-item">
+                <button class="question">Linear Search kya hai? Kaise kaam karta hai?</button>
+                <div class="answer">
+                    <p>
+                        Linear Search (ya Sequential Search) sabse simple searching algorithm hai. Yeh data structure (aam taur par Array ya List) ke har element ko ek-ek karke (sequentially) check karta hai jab tak ki desired element mil na jaye ya poora structure search na ho jaye.
+                    </p>
+                    <p><strong>Kaise Kaam Karta Hai:</strong></p>
+                    <ol>
+                        <li>List ke pehle element se shuru karo.</li>
+                        <li>Current element ko search key se compare karo.</li>
+                        <li>Agar match mil gaya, toh element mil gaya (uska index return kar do).</li>
+                        <li>Agar match nahi mila, toh agle element pe jao.</li>
+                        <li>Yeh process repeat karo jab tak element mil na jaye ya list khatam na ho jaye.</li>
+                        <li>Agar list khatam ho gayi aur element nahi mila, toh iska matlab element list mein nahi hai.</li>
+                    </ol>
+                    <p><strong>Khasiyat:</strong></p>
+                     <ul>
+                         <li>Simple to understand and implement.</li>
+                         <li>Data ka sorted hona zaroori nahi hai. Kisi bhi order wali list pe kaam karta hai.</li>
+                     </ul>
+                     <p><strong>Kami:</strong></p>
+                     <ul>
+                         <li>Inefficient for large datasets. Agar list mein 'n' elements hain, toh worst case (element aakhir mein ho ya na ho) mein 'n' comparisons karne pad sakte hain.</li>
+                         <li><strong>Time Complexity:</strong> O(n) (Linear Time)</li>
+                         <li><strong>Space Complexity:</strong> O(1) (Koi extra space nahi lagta)</li>
+                     </ul>
+                      <pre><code class="language-python">
+def linear_search(data_list, key_to_find):
+    """
+    Searches for key_to_find in data_list using linear search.
+    Returns the index if found, otherwise returns -1.
+    """
+    for index in range(len(data_list)):
+        if data_list[index] == key_to_find:
+            return index # Element mil gaya, index return karo
+    return -1 # Poori list search ho gayi, element nahi mila
+
+# --- Example Usage ---
+my_list = [10, 50, 30, 70, 80, 60, 20, 90, 40]
+key = 60
+
+result_index = linear_search(my_list, key)
+
+if result_index != -1:
+    print(f"Element {key} found at index: {result_index}")
+else:
+    print(f"Element {key} not found in the list.")
+
+key = 100
+result_index = linear_search(my_list, key)
+
+if result_index != -1:
+     print(f"Element {key} found at index: {result_index}")
+else:
+    print(f"Element {key} not found in the list.")
+
+                      </code></pre>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Binary Search -->
+            <div class="qa-item">
+                <button class="question">Binary Search kya hai? Yeh kab use hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Binary Search ek bahut hi efficient searching algorithm hai, lekin iski ek important shart hai: **Yeh sirf Sorted Data (Array/List) par hi kaam karta hai.**
+                    </p>
+                    <p>
+                        Yeh 'Divide and Conquer' strategy use karta hai. Har step mein, yeh search space ko aadha (half) kar deta hai.
+                    </p>
+                    <p><strong>Kaise Kaam Karta Hai (Iterative Approach):</strong></p>
+                     <ol>
+                        <li>Poori sorted list ko consider karo. Do pointers lo: `low` (starting index, initially 0) aur `high` (ending index, initially `n-1`).</li>
+                        <li>Jab tak `low <= high` hai, tab tak loop chalao:</li>
+                        <li>Middle index calculate karo: `mid = low + (high - low) // 2` (Integer division use karo, `(low+high)//2` bhi chalega lekin overflow avoid karne ke liye pehla tareeka behtar hai).</li>
+                        <li>Middle element (`list[mid]`) ko search key se compare karo:
+                            <ul>
+                                <li>Agar `list[mid] == key`: Element mil gaya, `mid` index return karo.</li>
+                                <li>Agar `key < list[mid]`: Key middle element se chhoti hai, iska matlab key sirf *left half* mein ho sakti hai. Toh `high` ko `mid - 1` pe set kar do (right half ko ignore karo).</li>
+                                <li>Agar `key > list[mid]`: Key middle element se badi hai, iska matlab key sirf *right half* mein ho sakti hai. Toh `low` ko `mid + 1` pe set kar do (left half ko ignore karo).</li>
+                            </ul>
+                        </li>
+                         <li>Agar loop khatam ho gaya (matlab `low > high` ho gaya) aur element nahi mila, toh iska matlab element list mein nahi hai.</li>
+                     </ol>
+                      <p><strong>Khasiyat:</strong></p>
+                     <ul>
+                         <li>Bahut fast hai large datasets ke liye. Har step mein search space aadha ho jaata hai.</li>
+                         <li><strong>Time Complexity:</strong> O(log n) (Logarithmic Time). Yeh Linear Search se kaafi behtar hai.</li>
+                     </ul>
+                     <p><strong>Kami:</strong></p>
+                     <ul>
+                         <li>Data ka sorted hona *zaroori* hai. Agar data sorted nahi hai, toh pehle use sort karna padega (jisme O(n log n) time lag sakta hai).</li>
+                         <li>Directly Linked Lists pe apply karna efficient nahi hai kyunki middle element O(1) mein access nahi kar sakte.</li>
+                          <li><strong>Space Complexity:</strong> O(1) for iterative version, O(log n) for recursive version (due to call stack).</li>
+                     </ul>
+                      <pre><code class="language-python">
+def binary_search_iterative(sorted_list, key_to_find):
+    """
+    Searches for key_to_find in sorted_list using iterative binary search.
+    Returns the index if found, otherwise returns -1.
+    """
+    low = 0
+    high = len(sorted_list) - 1
+
+    while low <= high:
+        mid = low + (high - low) // 2 # Calculate mid index
+
+        # Check if key is present at mid
+        if sorted_list[mid] == key_to_find:
+            return mid
+
+        # If key is greater, ignore left half
+        elif key_to_find > sorted_list[mid]:
+            low = mid + 1
+
+        # If key is smaller, ignore right half
+        else: # key_to_find < sorted_list[mid]
+            high = mid - 1
+
+    # If we reach here, then the element was not present
+    return -1
+
+# --- Example Usage ---
+# IMPORTANT: List must be sorted for Binary Search
+my_sorted_list = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+key = 60
+
+result_index = binary_search_iterative(my_sorted_list, key)
+
+if result_index != -1:
+    print(f"Element {key} found at index: {result_index}")
+else:
+    print(f"Element {key} not found in the list.")
+
+key = 25
+result_index = binary_search_iterative(my_sorted_list, key)
+
+if result_index != -1:
+     print(f"Element {key} found at index: {result_index}")
+else:
+    print(f"Element {key} not found in the list.")
+                      </code></pre>
+                      <p>Binary Search ko recursively bhi implement kiya ja sakta hai.</p>
+                </div>
+            </div>
+
+             <!-- Q&A 4: Other Searching -->
+            <div class="qa-item">
+                <button class="question">Linear aur Binary ke alawa aur kaunse Searching methods hain?</button>
+                <div class="answer">
+                    <p>Haan, data structure aur problem ke hisab se aur bhi searching methods use hote hain:</p>
+                    <ul>
+                        <li><strong>Hashing (Hash Table Lookup):</strong> Agar data Hash Table (jaise Python dictionary) mein store hai, toh key se value search karna average case mein O(1) hota hai. Yeh sabse fast tareeka hai agar applicable ho.</li>
+                        <li><strong>Tree Search (BST Search):</strong> Agar data Binary Search Tree mein hai, toh search O(log n) average case mein hota hai.</li>
+                        <li><strong>Graph Search (BFS/DFS):</strong> Agar data ek Graph ke form mein hai, toh kisi node ko dhoondhne ya path find karne ke liye Breadth-First Search (BFS) ya Depth-First Search (DFS) use hote hain. Inki complexity graph ke size (vertices aur edges) pe depend karti hai (e.g., O(V+E)).</li>
+                        <li><strong>Ternary Search:</strong> Yeh bhi sorted data pe kaam karta hai aur Binary Search jaisa hai, lekin search space ko *do* middle points use karke *teen* hisso mein divide karta hai. Kuch specific cases (jaise unimodal function ka maximum find karna) mein use hota hai, lekin general searching ke liye Binary Search hi prefer kiya jaata hai (constant factor better hota hai). Complexity O(log<sub>3</sub> n) hoti hai, jo asymptotically O(log n) ke barabar hai.</li>
+                        <li><strong>Interpolation Search:</strong> Yeh bhi sorted data pe kaam karta hai aur Binary Search ka improvement hai (kuch cases mein). Yeh middle point calculate karte waqt values ke distribution ka use karta hai (agar data uniformly distributed hai toh O(log log n) average time le sakta hai, lekin worst case O(n) hai).</li>
+                        <li><strong>String Searching Algorithms:</strong> Text mein pattern search karne ke liye specific algorithms hote hain jaise Knuth-Morris-Pratt (KMP), Rabin-Karp, Boyer-Moore.</li>
+                    </ul>
+                    <p>Choice of algorithm data structure, data ke sorted/unsorted hone, aur data ke distribution par depend karti hai.</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="trees.html" class="prev-link">Previous: Trees</a>
+            <a href="sorting.html" class="next-link">Next: Sorting</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+     <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

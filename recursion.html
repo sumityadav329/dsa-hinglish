@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursion ke Chakkar - DSA Hinglish Mein</title>
+    <!-- CSS and JS Links -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG Styles -->
+     <style>
+        .visualization-container { margin: 20px 0; text-align: center; }
+        /* Add specific SVG styles if needed */
+        .call-stack-box { stroke: #6f42c1; stroke-width: 1.5; fill: #f3e S9ff; /* Light purple */ }
+        .svg-text-small { font-family: var(--code-font); font-size: 12px; fill: #333; text-anchor: middle; }
+     </style>
+</head>
+<body>
+    <!-- Arrowhead Definition -->
+    <svg width="0" height="0" style="position:absolute;"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth"><polygon points="0 0, 10 3.5, 0 7" fill="#007bff"/></marker></defs></svg>
+
+    <div class="container">
+        <header>
+            <h1>🔁 Recursion ke Chakkar 🔁</h1>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+             <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: What is Recursion? -->
+            <div class="qa-item">
+                <button class="question">Recursion kya hota hai?</button>
+                <div class="answer">
+                    <p>
+                        Recursion ek programming technique hai jisme ek function *khud ko hi call* karta hai ek problem ko solve karne ke liye. Yeh "Divide and Conquer" jaisa approach hai, jahan ek badi problem ko usi type ki chhoti-chhoti sub-problems mein toda jaata hai.
+                    </p>
+                    <p>Har recursive function ke do main parts hote hain:</p>
+                    <ol>
+                        <li>
+                            <strong>Base Case (Stopping Condition):</strong> Yeh woh condition hoti hai jahan function khud ko call karna band kar deta hai. Agar base case nahi hoga, toh function hamesha khud ko call karta rahega (infinite recursion) aur 'Stack Overflow' error aa jayega. Base case sabse simple sub-problem ka solution hota hai.
+                        </li>
+                        <li>
+                            <strong>Recursive Step (Recursive Call):</strong> Yeh woh part hai jahan function problem ko thoda chhota karke *khud ko dobara call* karta hai us chhote version ke saath. Solution chhoti sub-problems ke solutions ko combine karke banta hai.
+                        </li>
+                    </ol>
+                    <p>
+                        Imagine karo Russian nesting dolls (ek doll ke andar waisi hi chhoti doll). Base case sabse chhoti doll hai jo aur nahi khulti. Recursive step hai ek doll ko khol kar uske andar wali (chhoti) doll nikalna.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Call Stack -->
+            <div class="qa-item">
+                <button class="question">Recursion mein Call Stack ka kya role hai?</button>
+                <div class="answer">
+                    <p>
+                        Jab ek function call hota hai, toh uske liye memory (uske local variables, parameters, return address) 'Call Stack' naam ke ek special memory area mein allocate hoti hai. Yeh ek Stack data structure ki tarah kaam karta hai (LIFO).
+                    </p>
+                    <p>
+                        Recursive calls mein kya hota hai:
+                    </p>
+                    <ul>
+                        <li>Jab function `F(n)` call hota hai, uska frame stack pe push hota hai.</li>
+                        <li>Agar `F(n)` function `F(n-1)` ko call karta hai (recursive step), toh `F(n-1)` ka naya frame `F(n)` ke frame ke *upar* stack pe push hota hai.</li>
+                        <li>Yeh process chalta rehta hai jab tak base case hit nahi hota.</li>
+                        <li>Jab base case (`F(base)`) hit hota hai, woh apna result return karta hai aur uska frame stack se *pop* ho jaata hai.</li>
+                        <li>Control wapas us function pe jaata hai jisne use call kiya tha (e.g., `F(base+1)`). Woh result use karke apna kaam poora karta hai, return karta hai, aur uska frame bhi pop ho jaata hai.</li>
+                        <li>Yeh popping process chalta rehta hai jab tak original call (`F(n)`) ka frame pop na ho jaye.</li>
+                    </ul>
+                    <p>
+                        Agar base case kabhi hit nahi hua, toh stack pe frames push hote jayenge aur eventually stack ki memory khatam ho jayegi, jisse <strong>Stack Overflow Error</strong> aata hai.
+                    </p>
+                    <!-- SVG for Call Stack Example (Factorial) -->
+                     <div class="visualization-container">
+                         <svg width="250" height="300" viewBox="0 0 250 300">
+                            <title>Call Stack for Factorial(3)</title>
+                            <desc>Call stack frames pushing and popping for factorial calculation.</desc>
+                             <!-- Stack Visual -->
+                            <rect x="50" y="30" width="150" height="250" fill="none" stroke="#aaa" stroke-width="1" />
+                            <text class="svg-label" x="125" y="20">Call Stack (Grows Down)</text>
+
+                             <!-- Frame 1: fact(3) calls fact(2) -->
+                            <rect class="call-stack-box" x="60" y="40" width="130" height="50" rx="3"/>
+                            <text class="svg-text-small" x="125" y="65">fact(3)</text>
+                            <text class="svg-text-small" x="125" y="80">(calls fact(2))</text>
+
+                            <!-- Frame 2: fact(2) calls fact(1) -->
+                            <rect class="call-stack-box" x="60" y="100" width="130" height="50" rx="3"/>
+                            <text class="svg-text-small" x="125" y="125">fact(2)</text>
+                            <text class="svg-text-small" x="125" y="140">(calls fact(1))</text>
+
+                            <!-- Frame 3: fact(1) calls fact(0) -->
+                             <rect class="call-stack-box" x="60" y="160" width="130" height="50" rx="3"/>
+                            <text class="svg-text-small" x="125" y="185">fact(1)</text>
+                            <text class="svg-text-small" x="125" y="200">(calls fact(0))</text>
+
+                            <!-- Frame 4: fact(0) is Base Case -->
+                             <rect class="call-stack-box" x="60" y="220" width="130" height="50" rx="3"/>
+                            <text class="svg-text-small" x="125" y="245">fact(0)</text>
+                            <text class="svg-text-small" x="125" y="260">(Base Case: returns 1)</text>
+
+                            <!-- Arrows showing return flow (Conceptual) -->
+                             <line x1="50" y1="245" x2="30" y2="185" stroke="#007bff" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                             <line x1="50" y1="185" x2="30" y2="125" stroke="#007bff" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                             <line x1="50" y1="125" x2="30" y2="65" stroke="#007bff" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                         </svg>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Examples -->
+            <div class="qa-item">
+                <button class="question">Recursion ke kuch simple examples do (Factorial, Fibonacci).</button>
+                <div class="answer">
+                    <p><strong>1. Factorial (n!)</strong></p>
+                    <p>n! = n * (n-1) * (n-2) * ... * 1. Aur 0! = 1.</p>
+                    <p>Recursive relation: `factorial(n) = n * factorial(n-1)`</p>
+                    <p>Base Case: `factorial(0) = 1`</p>
+                     <pre><code class="language-python">
+def factorial(n):
+    # Base Case
+    if n == 0 or n == 1:
+        return 1
+    # Recursive Step
+    else:
+        return n * factorial(n - 1)
+
+# Example
+num = 5
+print(f"Factorial of {num} is {factorial(num)}") # Output: 120
+                    </code></pre>
+
+                    <p><strong>2. Fibonacci Sequence</strong></p>
+                    <p>Sequence: 0, 1, 1, 2, 3, 5, 8, ... Har number pichle do numbers ka sum hota hai.</p>
+                    <p>Recursive relation: `fib(n) = fib(n-1) + fib(n-2)`</p>
+                    <p>Base Cases: `fib(0) = 0`, `fib(1) = 1`</p>
+                    <pre><code class="language-python">
+def fibonacci_recursive(n):
+    # Base Cases
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    # Recursive Step
+    else:
+        return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
+
+# Example
+num_terms = 7
+print(f"Fibonacci sequence up to term {num_terms}:")
+for i in range(num_terms):
+    print(fibonacci_recursive(i), end=" ") # Output: 0 1 1 2 3 5 8
+print()
+                    </code></pre>
+                    <p><strong>Important Note:</strong> Fibonacci ka yeh recursive solution bahut **inefficient** hai (Exponential Time Complexity - O(2<sup>n</sup>)) kyunki yeh same sub-problems (like fib(2), fib(3)) ko baar baar calculate karta hai. Isko Dynamic Programming (Memoization) ya iterative approach se O(n) mein solve kiya ja sakta hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 4: Recursion vs Iteration -->
+            <div class="qa-item">
+                <button class="question">Recursion aur Iteration (Loops) mein kya fark hai?</button>
+                <div class="answer">
+                    <table class="comparison-table">
+                         <thead>
+                            <tr><th>Feature</th><th>Recursion</th><th>Iteration (Loops)</th></tr>
+                         </thead>
+                        <tbody>
+                            <tr><td>Definition</td><td>Function calls itself</td><td>Code block repeats based on a condition (using `for`, `while`)</td></tr>
+                            <tr><td>Termination</td><td>Base Case condition met</td><td>Loop condition becomes false</td></tr>
+                            <tr><td>State Management</td><td>Implicitly managed by Call Stack</td><td>Explicitly managed by loop variables</td></tr>
+                            <tr><td>Code Structure</td><td>Often shorter, more elegant for some problems (e.g., tree traversals)</td><td>Can be longer, sometimes less intuitive for nested structures</td></tr>
+                            <tr><td>Performance</td><td>Function call overhead, can be slower. Risk of Stack Overflow.</td><td>Generally faster (no function call overhead). No stack overflow risk from iteration itself.</td></tr>
+                            <tr><td>Space Complexity</td><td>O(depth) due to Call Stack</td><td>O(1) (usually, for loop variables)</td></tr>
+                        </tbody>
+                    </table>
+                     <p>Har recursive solution ko iterative solution mein convert kiya ja sakta hai (aksar explicit stack use karke), aur vice-versa. Choice depend karti hai problem ki nature, readability, aur performance requirements par.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 5: When to use Recursion? -->
+             <div class="qa-item">
+                <button class="question">Recursion kab use karna chahiye?</button>
+                <div class="answer">
+                    <p>Recursion unn problems ke liye bahut natural aur elegant solution provide karta hai jinki structure inherently recursive ho:</p>
+                    <ul>
+                       <li><strong>Problems with Self-Similar Subproblems:</strong> Jab ek problem ko usi type ki chhoti subproblems mein break kiya ja sake (e.g., Factorial, Fibonacci, Merge Sort, Quick Sort).</li>
+                       <li><strong>Tree and Graph Traversals:</strong> DFS (Inorder, Preorder, Postorder) traversals ko recursively likhna bahut intuitive hota hai.</li>
+                       <li><strong>Backtracking Algorithms:</strong> Problems jahan aapko alag-alag possibilities explore karni hoti hain aur galat path pe jaane par wapas aana padta hai (e.g., N-Queens, Sudoku solver, maze solving).</li>
+                        <li><strong>Divide and Conquer Algorithms:</strong> Jaise Merge Sort, Quick Sort, Binary Search (recursive version).</li>
+                    </ul>
+                    <p>Halaanki, agar performance critical hai aur Stack Overflow ka risk hai (bahut deep recursion ho sakti hai), toh iterative solution prefer kiya ja sakta hai, bhale hi woh thoda kam elegant lage.</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <a href="sorting.html" class="prev-link">Previous: Sorting</a>
+            <a href="heap.html" class="next-link">Next: Heaps</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+            <p class="breadcrumb"><a href="index.html">&lt;&lt; Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+     <!-- JS Links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

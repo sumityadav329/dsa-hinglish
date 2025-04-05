@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays ke Funde - DSA Hinglish Mein</title>
+    <!-- Prism JS Theme (Okaidia) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- Hamari Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- SVG ke liye specific styles (Optional) -->
+    <style>
+        .visualization-container {
+            margin: 20px 0;
+            text-align: center; /* Center the SVG */
+        }
+        .visualization-container svg {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            max-width: 100%; /* Responsive */
+            height: auto;
+        }
+        .svg-box {
+            stroke: #333; /* Box border color */
+            stroke-width: 1.5;
+            fill: #e0e0ff; /* Light blue fill */
+        }
+        .svg-text {
+            font-family: var(--body-font);
+            font-size: 14px;
+            fill: #000; /* Text color */
+            text-anchor: middle; /* Center text inside box */
+        }
+        .svg-index {
+            font-family: var(--code-font);
+            font-size: 12px;
+            fill: #555;
+            text-anchor: middle;
+        }
+        .svg-label {
+            font-family: var(--body-font);
+            font-size: 13px;
+            fill: #d9534f; /* Reddish color for labels */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Arrays ke Funde (Basics) ✨</h1>
+            <p class="breadcrumb"><a href="index.html"><< Back to Topics</a></p>
+        </header>
+
+        <main class="topic-content">
+            <h2>Common Interview Questions & Concepts:</h2>
+
+            <!-- Q&A 1: Definition with SVG -->
+            <div class="qa-item">
+                <button class="question">Array kya hota hai bhai?</button>
+                <div class="answer">
+                    <p>
+                        Simple shabdon mein, Array ek collection hota hai similar type ke items ka jo memory mein ek saath (contiguous) store hote hain. Imagine karo ek building jisme consecutive numbered flats hain - yeh ek array jaisa hai. Har item ko uske 'index' (address ya flat number, jo 0 se start hota hai) se access kar sakte hain.
+                    </p>
+
+                    <!-- SVG Visualization Start -->
+                    <div class="visualization-container">
+                        <svg width="400" height="120" viewBox="0 0 400 120">
+                            <title>Array Structure Visualization</title>
+                            <desc>Ek 5 elements ka array, index 0 se 4 tak, values ke saath.</desc>
+
+                            <!-- Array Boxes -->
+                            <rect class="svg-box" x="10" y="30" width="60" height="40" rx="5"></rect>
+                            <rect class="svg-box" x="80" y="30" width="60" height="40" rx="5"></rect>
+                            <rect class="svg-box" x="150" y="30" width="60" height="40" rx="5"></rect>
+                            <rect class="svg-box" x="220" y="30" width="60" height="40" rx="5"></rect>
+                            <rect class="svg-box" x="290" y="30" width="60" height="40" rx="5"></rect>
+
+                            <!-- Values inside boxes -->
+                            <text class="svg-text" x="40" y="55">85</text>
+                            <text class="svg-text" x="110" y="55">92</text>
+                            <text class="svg-text" x="180" y="55">78</text>
+                            <text class="svg-text" x="250" y="55">90</text>
+                            <text class="svg-text" x="320" y="55">88</text>
+
+                            <!-- Indices below boxes -->
+                            <text class="svg-index" x="40" y="85">Index: 0</text>
+                            <text class="svg-index" x="110" y="85">Index: 1</text>
+                            <text class="svg-index" x="180" y="85">Index: 2</text>
+                            <text class="svg-index" x="250" y="85">Index: 3</text>
+                            <text class="svg-index" x="320" y="85">Index: 4</text>
+
+                             <!-- Label -->
+                             <text class="svg-label" x="10" y="110">Array Name: `marks`</text>
+                             <text class="svg-label" x="200" y="15">Memory Mein Contiguous Blocks</text>
+                        </svg>
+                    </div>
+                    <!-- SVG Visualization End -->
+
+                    <p>
+                        Upar diye gaye diagram mein `marks` naam ka ek array hai jisme 5 elements hain. Har element ka apna index hai (0 se 4 tak). Yeh sabhi elements memory mein ek ke baad ek store hote hain.
+                    </p>
+                    <p>
+                        Example: `marks = [85, 92, 78, 90, 88]`. Yahan `marks[0]` 85 hai, `marks[1]` 92 hai, and so on.
+                    </p>
+                    <p>
+                        <strong>Fayde:</strong> Kisi bhi element ko direct uske index se access karna bahut fast hota hai (O(1) time).
+                    </p>
+                    <p>
+                        <strong>Nuksaan:</strong> Size fix hota hai (static arrays mein), naya element beech mein insert karna ya delete karna slow ho sakta hai kyonki baaki elements ko shift karna padta hai. Dynamic arrays (jaise Python lists ya Java ArrayList) size ka issue solve karte hain, lekin kabhi kabhi resize hone par performance hit ho sakti hai.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Q&A 2: Python Implementation -->
+            <div class="qa-item">
+                <button class="question">Python mein basic Array (List) kaise banate hain aur access karte hain?</button>
+                <div class="answer">
+                    <p>Python mein built-in 'list' hoti hai jo dynamic array ki tarah kaam karti hai. Yeh aise banti hai:</p>
+                    <pre><code class="language-python">
+# Ek list (array) banayi jisme integers hain
+my_marks = [90, 75, 88, 95, 60]
+
+# Pehla element (index 0) print karna
+print("Pehla student ke marks:", my_marks[0])  # Output: 90
+                    </code></pre>
+                    <p>Yaad rakho, Python mein list ka index 0 se shuru hota hai.</p>
+                </div>
+            </div>
+
+            <!-- Q&A 3: Complexity -->
+            <!-- ... (complexity details) ... -->
+
+        </main>
+
+        <!-- Page Navigation Section -->
+        <nav class="page-navigation">
+            <!-- Previous Link (Assuming Complexity is before Arrays) -->
+            <a href="complexity.html" class="prev-link">Previous: Complexity</a>
+
+            <!-- Next Link -->
+            <a href="linked-lists.html" class="next-link">Next: Linked Lists</a>
+        </nav>
+        <!-- End Page Navigation Section -->
+
+        <footer>
+             <p class="breadcrumb"><a href="index.html"><< Back to Topics</a></p>
+            <p>Happy Learning! ✨ | Made with ❤️</p>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button id="backToTopBtn" title="Go to top">⬆️ Top</button>
+    </div>
+
+    <!-- Prism JS Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
