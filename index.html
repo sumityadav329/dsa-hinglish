@@ -1,145 +1,735 @@
 <!DOCTYPE html>
-<html lang="hi"> <!-- Language ko Hindi specify kar dete hain -->
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DSA Hinglish Mein - Zero se Hero</title>
-    <!-- Prism JS Theme (Okaidia) - Syntax Highlighting ke liye -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
-    <!-- Hamari Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Additional styles for category boxes -->
     <style>
-        .topic-categories {
-            display: grid; /* Use Grid for layout */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
-            gap: 25px; /* Space between boxes */
-            margin-top: 20px;
-        }
-        .topic-category {
-            background: #fff;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            border-left: 5px solid var(--primary-color); /* Accent border */
-        }
-        .topic-category h3 {
-            font-family: var(--heading-font);
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
-            display: flex; /* Align icon and text */
-            align-items: center;
-        }
-         .topic-category h3 .level-icon { /* Style for icons */
-            margin-right: 10px;
-            font-size: 1.2em;
-         }
+        /* --- Google Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto+Mono&display=swap');
 
-        .topic-category ul {
-            list-style: none;
+        /* --- Variables --- */
+        :root {
+            --primary-color: #007aff; /* Apple Blue */
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --background-color: #f5f5f7; /* Apple Light Gray */
+            --text-color: #1d1d1f; /* Apple Dark Text */
+            --heading-font: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            --body-font: -apple-system, BlinkMacSystemFont, 'Poppins', sans-serif;
+            --code-font: 'Roboto Mono', monospace;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+            --easy-color: #34c759; /* Apple Green */
+            --medium-color: #ff9500; /* Apple Orange */
+            --hard-color: #ff3b30; /* Apple Red */
+        }
+        
+        /* --- Basic Reset & Body --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
             padding: 0;
         }
-        .topic-category ul li {
-            margin-bottom: 10px;
-        }
-        .topic-category ul li a {
-            text-decoration: none;
-            color: var(--dark-color);
-            font-weight: 400;
-            transition: color 0.3s ease, padding-left 0.3s ease;
-            display: block;
-            padding: 6px 8px;
-            border-radius: 4px;
-        }
-        .topic-category ul li a:hover {
-            color: var(--primary-color);
+        
+        body {
+            display: flex;
+            font-family: var(--body-font);
+            line-height: 1.7;
             background-color: var(--background-color);
-            padding-left: 15px;
+            color: var(--text-color);
+            font-size: 16px;
+            height: 100vh;
+            margin: 0;
         }
-         .topic-category ul li a .topic-icon { /* Style for icons next to topic */
-            margin-right: 8px;
-            display: inline-block; /* Prevents icon from causing line break */
-            width: 20px; /* Fixed width for alignment */
+        
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 300px;
+            background-color: #ffffff;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #e0e0e0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar h2 {
             text-align: center;
-         }
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-family: var(--heading-font);
+        }
+        
+        .category-label {
+            font-size: 0.95rem;
+            color: #6e6e73;
+            margin: 24px 0 12px 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            font-family: var(--heading-font);
+        }
+        
+        .level-icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .button-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .button-list li {
+            margin: 10px 0;
+        }
+        
+        .apple-button {
+            background-color: #ffffff;
+            border-radius: var(--border-radius);
+            padding: 12px 16px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            align-items: center;
+        }
+        
+        .basics-button {
+            border-left: 5px solid var(--easy-color);
+        }
+        
+        .intermediate-button {
+            border-left: 5px solid var(--medium-color);
+        }
+        
+        .advanced-button {
+            border-left: 5px solid var(--hard-color);
+        }
+        
+        .apple-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f8f8f8;
+        }
+        
+        .apple-button:active {
+            transform: translateY(0);
+            background-color: #f0f0f0;
+        }
+        
+        .topic-icon {
+            margin-right: 10px;
+            display: inline-block;
+            width: 24px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        /* --- Content --- */
+        .content {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: #ffffff;
+            padding: 0; /* Remove padding to let iframe take full space */
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: white;
+        }
+        
+        /* --- Back to Top Button --- */
+        #backToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            padding: 12px 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            box-shadow: var(--box-shadow);
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+
+        #backToTopBtn:hover {
+            background-color: #0056b3;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            
+            .content {
+                height: 600px; /* Fixed height on mobile */
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <h2>🚀 DSA Seekho Hinglish Mein!</h2>
+        
+        <div class="category-label"><span class="level-icon">👶</span> Basics (Level 1)</div>
+        <ul class="button-list">
+            <li><a href="complexity.html" target="content-frame" class="apple-button basics-button"><span class="topic-icon">⏱️</span>Time/Space Complexity</a></li>
+            <li><a href="arrays.html" target="content-frame" class="apple-button basics-button"><span class="topic-icon">✨</span>Arrays</a></li>
+            <li><a href="linked-lists.html" target="content-frame" class="apple-button basics-button"><span class="topic-icon">🔗</span>Linked Lists</a></li>
+            <li><a href="stacks.html" target="content-frame" class="apple-button basics-button"><span class="topic-icon">📚</span>Stacks</a></li>
+            <li><a href="queues.html" target="content-frame" class="apple-button basics-button"><span class="topic-icon">🚶</span>Queues</a></li>
+        </ul>
+        
+        <div class="category-label"><span class="level-icon">🧑‍💻</span> Intermediate (Level 2)</div>
+        <ul class="button-list">
+            <li><a href="hashing.html" target="content-frame" class="apple-button intermediate-button"><span class="topic-icon">🔑</span>Hashing</a></li>
+            <li><a href="trees.html" target="content-frame" class="apple-button intermediate-button"><span class="topic-icon">🌳</span>Trees (Intro & BST)</a></li>
+            <li><a href="searching.html" target="content-frame" class="apple-button intermediate-button"><span class="topic-icon">🔍</span>Searching Algorithms</a></li>
+            <li><a href="sorting.html" target="content-frame" class="apple-button intermediate-button"><span class="topic-icon">📊</span>Sorting Algorithms</a></li>
+            <li><a href="recursion.html" target="content-frame" class="apple-button intermediate-button"><span class="topic-icon">🔁</span>Recursion Basics</a></li>
+            <li><a href="heap.html" target="content-frame" class="apple-button intermediate-button"><span class="topic-icon">🔥</span>Heaps & Priority Queue</a></li>
+        </ul>
+        
+        <div class="category-label"><span class="level-icon">🚀</span> Advanced (Level 3)</div>
+        <ul class="button-list">
+            <li><a href="graphs.html" target="content-frame" class="apple-button advanced-button"><span class="topic-icon">📈</span>Graphs</a></li>
+            <li><a href="dynamic-programming.html" target="content-frame" class="apple-button advanced-button"><span class="topic-icon">🧠</span>Dynamic Programming (DP)</a></li>
+            <li><a href="greedy-algorithms.html" target="content-frame" class="apple-button advanced-button"><span class="topic-icon">💡</span>Greedy Algorithms</a></li>
+            <li><a href="#" target="content-frame" class="apple-button advanced-button"><span class="topic-icon">🌲</span>Advanced Trees (Coming Soon)</a></li>
+            <li><a href="#" target="content-frame" class="apple-button advanced-button"><span class="topic-icon">↩️</span>Backtracking (Coming Soon)</a></li>
+        </ul>
+    </div>
+    
+    <div class="content">
+        <iframe name="content-frame" srcdoc='
+        <!DOCTYPE html>
+        <html lang="hi">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>DSA Hinglish Mein - Zero se Hero</title>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+            <style>
+                /* --- Google Fonts --- */
+                @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto+Mono&display=swap");
 
-    <div class="container">
-        <header>
-            <h1>🚀 DSA Seekho Hinglish Mein! 🚀</h1>
-            <p class="intro">Aapka swagat hai is DSA learning journey mein - bilkul basics se lekar advanced concepts tak, sab aasan Hinglish mein!</p>
-        </header>
+                /* --- Variables --- */
+                :root {
+                    --primary-color: #007aff;
+                    --secondary-color: #6c757d;
+                    --light-color: #f8f9fa;
+                    --dark-color: #343a40;
+                    --background-color: #f5f5f7;
+                    --text-color: #1d1d1f;
+                    --heading-font: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+                    --body-font: -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+                    --code-font: "Roboto Mono", monospace;
+                    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                    --border-radius: 12px;
+                }
 
-        <!-- Replaced old navigation with categories -->
-        <div class="topic-categories">
+                /* --- Basic Reset & Body --- */
+                * {
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                }
 
-            <!-- Category 1: Basics -->
-            <div class="topic-category">
-                <h3><span class="level-icon">👶</span> Basics (Level 1)</h3>
-                <ul>
-                    <li><a href="complexity.html"><span class="topic-icon">⏱️</span>Time/Space Complexity</a></li>
-                    <li><a href="arrays.html"><span class="topic-icon">✨</span>Arrays</a></li>
-                    <li><a href="linked-lists.html"><span class="topic-icon">🔗</span>Linked Lists</a></li>
-                    <li><a href="stacks.html"><span class="topic-icon">📚</span>Stacks</a></li>
-                    <li><a href="queues.html"><span class="topic-icon">🚶</span>Queues</a></li>
-                </ul>
-            </div>
+                body {
+                    font-family: var(--body-font);
+                    line-height: 1.7;
+                    color: var(--text-color);
+                    font-size: 16px;
+                    padding: 30px;
+                    background-color: white;
+                }
 
-            <!-- Category 2: Intermediate -->
-            <div class="topic-category">
-                 <h3><span class="level-icon">🧑‍💻</span> Intermediate (Level 2)</h3>
-                 <ul>
-                    <li><a href="hashing.html"><span class="topic-icon">🔑</span>Hashing</a></li>
-                    <li><a href="trees.html"><span class="topic-icon">🌳</span>Trees (Intro & BST)</a></li>
-                    <li><a href="searching.html"><span class="topic-icon">🔍</span>Searching Algorithms</a></li>
-                    <li><a href="sorting.html"><span class="topic-icon">📊</span>Sorting Algorithms</a></li>
-                    <li><a href="recursion.html"><span class="topic-icon">🔁</span>Recursion Basics</a></li>
-                    <li><a href="heap.html"><span class="topic-icon">🔥</span>Heaps & Priority Queue</a></li>
-                     <!-- Add more intermediate topics here -->
-                 </ul>
-            </div>
+                /* --- Container --- */
+                .container {
+                    max-width: 900px;
+                    margin: 0 auto;
+                }
 
-             <!-- Category 3: Advanced (Placeholder) -->
-            <div class="topic-category">
-                 <h3><span class="level-icon">🚀</span> Advanced (Level 3)</h3>
-                 <ul>
-                     <li><a href="graphs.html"><span class="topic-icon">📈</span>Graphs</a></li>
-                     <li><a href="dynamic-programming.html"><span class="topic-icon">🧠</span>Dynamic Programming (DP)</a></li>
-                     <li><a href="greedy-algorithms.html"><span class="topic-icon">💡</span>Greedy Algorithms</a></li>
-                     <li><a href="#"><span class="topic-icon">🌲</span>Advanced Trees (AVL, RBT) (Coming Soon)</a></li>
-                     <li><a href="#"><span class="topic-icon">↩️</span>Backtracking (Coming Soon)</a></li>
-                 </ul>
-            </div>
+                /* --- Header --- */
+                header {
+                    background: linear-gradient(135deg, #007aff, #0056b3);
+                    color: #fff;
+                    padding: 30px 20px;
+                    text-align: center;
+                    border-radius: var(--border-radius);
+                    margin-bottom: 30px;
+                    box-shadow: var(--box-shadow);
+                }
 
-        </div> <!-- End topic-categories -->
+                header h1 {
+                    font-family: var(--heading-font);
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                    font-size: 2.5em;
+                }
 
-        <main class="home-content" style="margin-top: 30px;"> <!-- Added margin-top -->
-            <h2>Website Kaise Use Karein?</h2>
-            <p>Upar diye gaye sections mein se topic chunein. Topics ko unki difficulty ke hisab se group kiya gaya hai. Har topic ke link pe click karke uske concepts aur interview sawaal dekhein!</p>
-            <p>Code examples ke corner mein 'Copy' button hai jisse aap code aasani se copy kar sakte hain.</p>
-            
-            <pre><code class="language-python">
+                header .intro {
+                    color: #eee;
+                    font-size: 1.1em;
+                }
+
+                /* --- Main Content Area --- */
+                main.topic-content, main.home-content {
+                    background: #fff;
+                    padding: 30px;
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--box-shadow);
+                    margin-bottom: 30px;
+                }
+
+                main h2 {
+                    font-family: var(--heading-font);
+                    color: var(--primary-color);
+                    margin: 30px 0 20px 0;
+                    padding-bottom: 10px;
+                    border-bottom: 1px solid #eee;
+                }
+
+                /* First h2 should have no top margin */
+                main h2:first-of-type {
+                    margin-top: 0;
+                }
+
+                /* --- Lists --- */
+                main ul, main ol {
+                    margin-bottom: 20px;
+                    padding-left: 25px;
+                }
+
+                main ul li, main ol li {
+                    margin-bottom: 10px;
+                }
+
+                main ul li strong, main ol li strong {
+                    color: var(--primary-color);
+                }
+
+                /* --- Paragraphs --- */
+                main p {
+                    margin-bottom: 20px;
+                    line-height: 1.7;
+                }
+
+                /* --- Code Block Styling --- */
+                pre[class*="language-"] {
+                    font-family: var(--code-font);
+                    border-radius: var(--border-radius);
+                    margin: 20px 0;
+                    box-shadow: var(--box-shadow);
+                    border: none;
+                    position: relative;
+                    font-size: 0.95em;
+                    padding: 1em;
+                    overflow: auto;
+                    white-space: pre;
+                    max-height: 450px;
+                }
+
+                /* --- Q&A Styling --- */
+                .qa-item {
+                    background-color: var(--light-color);
+                    border: 1px solid #ddd;
+                    border-radius: var(--border-radius);
+                    margin-bottom: 20px;
+                    overflow: hidden;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                }
+
+                .question {
+                    background-color: #fff;
+                    color: var(--dark-color);
+                    padding: 15px 20px;
+                    font-weight: 600;
+                    font-size: 1.1em;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border: none;
+                    width: 100%;
+                    text-align: left;
+                    font-family: var(--body-font);
+                    transition: background-color 0.3s ease;
+                }
+
+                .question:hover {
+                    background-color: var(--background-color);
+                }
+
+                .question::after {
+                    content: "▼";
+                    font-size: 0.8em;
+                    color: var(--primary-color);
+                    transition: transform 0.3s ease;
+                }
+
+                .qa-item.active .question::after {
+                    transform: rotate(180deg);
+                }
+
+                .answer {
+                    max-height: 0;
+                    overflow: hidden;
+                    padding: 0 20px;
+                    background-color: #fff;
+                    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+                }
+
+                .qa-item.active .answer {
+                    max-height: 1000px;
+                    padding: 20px;
+                    border-top: 1px solid #eee;
+                }
+
+                .answer p, .answer ul, .answer ol {
+                    margin-bottom: 15px;
+                }
+
+                /* --- Comparison Table Styling --- */
+                .comparison-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                    font-size: 0.95em;
+                    box-shadow: var(--box-shadow);
+                    border-radius: var(--border-radius);
+                    overflow: hidden;
+                }
+
+                .comparison-table thead tr {
+                    background-color: var(--primary-color);
+                    color: #ffffff;
+                    text-align: left;
+                    font-weight: bold;
+                }
+
+                .comparison-table th,
+                .comparison-table td {
+                    padding: 12px 15px;
+                    border: 1px solid #dddddd;
+                }
+
+                .comparison-table tbody tr {
+                    border-bottom: 1px solid #dddddd;
+                }
+
+                .comparison-table tbody tr:nth-of-type(even) {
+                    background-color: #f3f3f3;
+                }
+
+                .comparison-table tbody tr:nth-of-type(odd) {
+                    background-color: #ffffff;
+                }
+
+                .comparison-table tbody tr:last-of-type {
+                    border-bottom: 2px solid var(--primary-color);
+                }
+
+                .comparison-table tbody tr:hover {
+                    background-color: #e0e0e0;
+                }
+
+                /* --- Page Navigation --- */
+                .page-navigation {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-top: 40px;
+                    padding: 15px 0;
+                    border-top: 1px solid #eee;
+                }
+
+                .page-navigation a {
+                    background-color: var(--primary-color);
+                    color: #fff;
+                    padding: 10px 20px;
+                    border-radius: var(--border-radius);
+                    text-decoration: none;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    display: inline-block;
+                }
+
+                .page-navigation a:hover {
+                    background-color: #0056b3;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                    transform: translateY(-2px);
+                }
+
+                .page-navigation a:active {
+                    transform: translateY(0);
+                }
+
+                .page-navigation .prev-link::before {
+                    content: "⬅️ ";
+                    margin-right: 5px;
+                }
+
+                .page-navigation .next-link::after {
+                    content: " ➡️";
+                    margin-left: 5px;
+                }
+
+                /* --- Footer --- */
+                footer {
+                    text-align: center;
+                    margin-top: 40px;
+                    padding: 20px;
+                    font-size: 0.95em;
+                    color: var(--secondary-color);
+                    border-top: 1px solid #ddd;
+                }
+
+                /* --- Responsive Design --- */
+                @media (max-width: 768px) {
+                    body {
+                        padding: 15px;
+                    }
+                    
+                    header h1 {
+                        font-size: 2em;
+                    }
+                    
+                    main {
+                        padding: 20px;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    body {
+                        font-size: 15px;
+                        padding: 10px;
+                    }
+                    
+                    header h1 {
+                        font-size: 1.8em;
+                    }
+                    
+                    pre[class*="language-"] {
+                        font-size: 0.85em;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <header>
+                    <h1>🚀 DSA Seekho Hinglish Mein! 🚀</h1>
+                    <p class="intro">Aapka swagat hai is DSA learning journey mein - bilkul basics se lekar advanced concepts tak, sab aasan Hinglish mein!</p>
+                </header>
+                
+                <main class="home-content">
+                    <h2>Website Kaise Use Karein?</h2>
+                    <p>Left side mein diye gaye topics ke colorful buttons pe click karke aap different DSA concepts ke baare mein seekh sakte hain. Topics ko teen difficulty levels mein categorize kiya gaya hai:</p>
+                    <ul>
+                        <li><strong>Basics (Level 1)</strong>: Naye programmers ke liye bilkul shuruat se</li>
+                        <li><strong>Intermediate (Level 2)</strong>: Thoda aur challenging concepts jinke liye thodi programming knowledge zaroori hai</li>
+                        <li><strong>Advanced (Level 3)</strong>: Complex algorithms aur data structures jo competitive programming aur interviews mein puche jaate hain</li>
+                    </ul>
+                    
+                    <h2>Topics Seekhne Ka Tarika</h2>
+                    <p>Har topic pe click karne ke baad aapko milega:</p>
+                    <ul>
+                        <li>Us concept ka simple explanation with examples</li>
+                        <li>Code implementation in Python with clear comments</li>
+                        <li>Practice problems with solutions</li>
+                        <li>Interview questions and tips</li>
+                    </ul>
+                    
+                    <p>Code examples ke corner mein "Copy" button hai jisse aap code aasani se copy kar sakte hain:</p>
+                    
+                    <pre><code class="language-python">
 # Example code
 def hello_world():
     print("Hello, World!")
-            </code></pre>
-        </main>
+                    </code></pre>
+                    
+                    <h2>FAQ Section Ka Upyog</h2>
+                    <p>Har topic page mein FAQ section hota hai jahan aap common questions ke answers dekh sakte hain:</p>
+                    
+                    <div class="qa-item">
+                        <button class="question">Arrays aur Linked Lists mein kya difference hai?</button>
+                        <div class="answer">
+                            <p><strong>Arrays:</strong> Continuous memory allocation with direct access by index.</p>
+                            <p><strong>Linked Lists:</strong> Non-continuous memory with nodes that point to next element.</p>
+                            <p>Arrays have O(1) access time but fixed size, while linked lists have O(n) access time but flexible size.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <button class="question">Time Complexity kya hoti hai?</button>
+                        <div class="answer">
+                            <p>Time Complexity ek algorithm ke performance ko measure karne ka tareeka hai. Yeh batata hai ki input size badhne par algorithm kitna slow ya fast hoga.</p>
+                            <p>Common notations:</p>
+                            <ul>
+                                <li><strong>O(1)</strong>: Constant time - input size se independent</li>
+                                <li><strong>O(log n)</strong>: Logarithmic time - very efficient for large inputs</li>
+                                <li><strong>O(n)</strong>: Linear time - execution time grows linearly with input</li>
+                                <li><strong>O(n²)</strong>: Quadratic time - generally inefficient for large inputs</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h2>Comparison Tables</h2>
+                    <p>Important concepts ko compare karne ke liye tables ka use kiya gaya hai:</p>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Data Structure</th>
+                                <th>Insertion</th>
+                                <th>Deletion</th>
+                                <th>Search</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Array</td>
+                                <td>O(n)</td>
+                                <td>O(n)</td>
+                                <td>O(n)</td>
+                            </tr>
+                            <tr>
+                                <td>Linked List</td>
+                                <td>O(1)</td>
+                                <td>O(1)</td>
+                                <td>O(n)</td>
+                            </tr>
+                            <tr>
+                                <td>Binary Search Tree</td>
+                                <td>O(log n)</td>
+                                <td>O(log n)</td>
+                                <td>O(log n)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="page-navigation">
+                        <a href="#" class="nav-placeholder">Previous Topic</a>
+                        <a href="arrays.html" class="next-link">Arrays</a>
+                    </div>
+                </main>
+                
+                <footer>
+                    <p>Happy Learning! ✨ | Made with ❤️</p>
+                </footer>
+            </div>
+            
+            <button id="backToTopBtn" title="Go to top">⬆️</button>
 
-        <footer>
-            <p>Happy Learning! ✨ | Made with ❤️</p>
-        </footer>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    // --- Q&A Toggle Functionality ---
+                    const qaItems = document.querySelectorAll(".qa-item");
+                    
+                    qaItems.forEach(item => {
+                        const questionButton = item.querySelector(".question");
+                        
+                        if (questionButton) {
+                            questionButton.addEventListener("click", () => {
+                                // Toggle "active" class on the parent .qa-item
+                                item.classList.toggle("active");
+                            });
+                        }
+                    });
+                    
+                    // --- Back to Top Button Functionality ---
+                    const backToTopButton = document.getElementById("backToTopBtn");
+                    
+                    if (backToTopButton) {
+                        // Show button when user scrolls down 100px
+                        window.onscroll = function() {
+                            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                                backToTopButton.style.display = "block";
+                                backToTopButton.style.opacity = "1"; // Fade in effect
+                            } else {
+                                backToTopButton.style.opacity = "0"; // Fade out effect
+                                // Hide completely after transition
+                                setTimeout(() => {
+                                    if (!(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100)) {
+                                        backToTopButton.style.display = "none";
+                                    }
+                                }, 300); // Match transition duration
+                            }
+                        };
+                        
+                        // Scroll smoothly to top when button clicked
+                        backToTopButton.addEventListener("click", () => {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        });
+                    }
+                    
+                    // --- Prism JS Initialization ---
+                    Prism.highlightAll();
+                    
+                    console.log("DSA Hinglish Site Script Loaded and Enhanced!");
+                });
+            </script>
+        </body>
+        </html>
+        '></iframe>
     </div>
-
-    <!-- Prism JS Core -->
+    
+    <button id="backToTopBtn" title="Go to top">⬆️</button>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <!-- Hamari Custom JS -->
-    <script src="script.js"></script>
-</body>
-</html>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Back to Top Button Functionality ---
+            const backToTopButton = document.getElementById("backToTopBtn");
+            
+            if (backToTopButton) {
+                // Show button when user scrolls down 100px
+                window.onscroll = function() {
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        backToTopButton.style.display = "block";
+                        backToTopButton.style.opacity = "1"; // Fade in effect
+                    } else {
+                        backToTopButton.style.opacity = "0"; // Fade out effect
+                        // Hide completely after transition
+                        setTimeout(() => {
+                            if (!(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100)) {
+                                backToTopButton.style.display = "none";
+                            }
+                        }, 300); // Match transition duration
+                    }
+                };
